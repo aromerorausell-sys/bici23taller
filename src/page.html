@@ -190,20 +190,30 @@ html.dark .logo .logo-d { display: block; }
 .facts li { font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); padding-left: .9rem; position: relative; }
 .facts li::before { content: ""; position: absolute; left: 0; top: .45em; width: .4rem; height: .4rem; background: var(--orange); border-radius: 50%; }
 
-.rv { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: clamp(3rem, 6vw, 5rem); }
-.score { padding: 1.6rem 0; min-width: 0; }
-.score b { display: block; font-stretch: 125%; font-weight: 900; font-size: clamp(4.5rem, 8vw, 7.5rem); line-height: .8; letter-spacing: -.06em; }
+.rv { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3rem); margin-top: clamp(3rem, 6vw, 5rem); align-items: start; }
+.score { padding-top: .4rem; min-width: 0; }
+.score b { display: block; font-stretch: 125%; font-weight: 900; font-size: clamp(4.5rem, 8vw, 7rem); line-height: .8; letter-spacing: -.06em; }
 .score .stars { font-size: 1.2rem; margin-top: .9rem; display: block; color: var(--orange-text); }
 .score small { display: block; font-family: var(--mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; margin-top: .5rem; color: var(--muted); }
 .words { margin-top: 1.2rem; font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .words span { display: block; }
 .words span + span { color: var(--ink); font-size: .78rem; margin-top: .3rem; }
-.quote { background: #F5F3EF; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.1rem; min-width: 0; }
-.quote p { font-family: var(--serif); font-size: clamp(1.3rem, 1.8vw, 1.6rem); line-height: 1.2; color: var(--ink); }
-.quote cite { margin-top: auto; font-style: normal; font-family: var(--mono); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-.quote--case { background: var(--orange); color: var(--ink); --muted: #2b1a0f; }
-.quote--case .eyebrow { color: var(--ink); }
-.quote--case p { font-family: var(--display); font-size: 1rem; line-height: 1.45; }
+.rnav { display: flex; gap: .5rem; margin-top: 1.6rem; }
+.rnav__b { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--ink); font-size: 1.1rem; display: grid; place-items: center; transition: background .25s, color .25s; }
+.rnav__b:hover { background: var(--ink); color: #fff; }
+.rv__all { display: inline-block; margin-top: 1.1rem; font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--orange-text); border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+.rtrack { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding-bottom: 6px; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); cursor: grab; }
+.rtrack::-webkit-scrollbar { display: none; }
+.rtrack.drag { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
+.rcard { flex: 0 0 min(21rem, 82vw); scroll-snap-align: start; background: #F5F3EF; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; min-height: 17rem; user-select: none; }
+.rcard__stars { color: var(--orange-text); letter-spacing: .12em; font-size: .9rem; }
+.rcard p { font-family: var(--serif); font-size: 1.32rem; line-height: 1.22; color: var(--ink); }
+.rcard figcaption { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: .6rem; font-size: .9rem; }
+.rcard figcaption b { font-weight: 600; }
+.src { font-family: var(--mono); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; padding: .3rem .55rem; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.rcard--case { background: var(--navy); --muted: #C3C8CE; --line: rgba(255,255,255,.25); color: #EDEAE4; }
+.rcard--case p { color: #fff; }
+.rcard--case .rcard__stars { color: var(--orange); }
 
 .final { background: var(--night); color: #EDEAE4; overflow: hidden; --muted: #B4B5B9; --orange-display: #EA5914; --line: rgba(237,234,228,.18); }
 .final .eyebrow { color: var(--orange); }
@@ -214,34 +224,40 @@ html.dark .logo .logo-d { display: block; }
 .final .btn--line:hover { background: #EDEAE4; color: var(--night); }
 .phone { display: block; margin-top: 1.8rem; font-stretch: 125%; font-weight: 900; font-size: clamp(2.1rem, 4.6vw, 4.6rem); letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; color: #fff; white-space: nowrap; }
 .phone:hover { color: var(--orange); }
-.steps { margin-top: 2.4rem; display: grid; gap: 0; counter-reset: s; border-top: 1px solid var(--line); }
+.contact__side { align-self: end; }
+.steps { margin-top: 0; display: grid; gap: 0; counter-reset: s; border-top: 1px solid var(--line); }
 .steps li { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); column-gap: .6rem; padding: .9rem 0; border-bottom: 1px solid var(--line); }
 .steps li::before { counter-increment: s; content: "0" counter(s); grid-row: span 2; font-family: var(--mono); font-size: .8rem; color: var(--orange); padding-top: .15rem; }
 .steps b { font-weight: 600; }
 .steps span { color: var(--muted); font-size: .92rem; }
-.visit { background: #EDEAE4; color: var(--ink); --muted: #4A4B4F; --line: color-mix(in srgb, var(--ink) 20%, transparent); }
-.visit .eyebrow { color: var(--orange-text); }
-.map { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #d9d6cf url("img/04-fachada-nueva.jpg") center 35% / cover; }
+.loc { position: relative; margin-top: clamp(3rem, 6vw, 4.5rem); min-height: 520px; display: grid; }
+.map { position: absolute; inset: 0; overflow: hidden; background: #2a3440 url("img/04-fachada-nueva.jpg") center 35% / cover; }
 .map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: grayscale(1) contrast(1.08) brightness(1.04); }
-.map__tint { position: absolute; inset: 0; pointer-events: none; background: var(--navy); mix-blend-mode: color; opacity: .55; }
-.map__pin { position: absolute; left: 50%; top: 50%; width: 38px; transform: translate(-50%, -100%); pointer-events: none; filter: drop-shadow(0 6px 8px rgba(20,28,36,.35)); }
-.map__pin svg { display: block; width: 100%; }
+.map__tint { position: absolute; inset: 0; pointer-events: none; background: var(--navy); mix-blend-mode: color; opacity: .6; }
+.map__pin { position: absolute; left: 62%; top: 50%; width: 42px; transform: translate(-50%, -100%); pointer-events: none; filter: drop-shadow(0 6px 8px rgba(20,28,36,.35)); }
+.map__pin svg { display: block; width: 100%; position: relative; }
 .map__pin path { fill: var(--orange); }
 .map__pin circle { fill: #fff; }
-.map__tag { position: absolute; left: 12px; bottom: 12px; display: flex; align-items: center; gap: .6rem; background: #F5F3EF; color: var(--ink); padding: .45rem .8rem .45rem .5rem; box-shadow: 0 6px 18px rgba(20,28,36,.18); font-size: .82rem; line-height: 1.25; }
-.map__tag img { width: 46px; height: auto; }
-.map__tag b { display: block; font-weight: 700; }
-.map__tag:hover { background: #fff; }
-.visit__body { padding: clamp(1.4rem, 3vw, 2.2rem); }
-.addr { font-stretch: 110%; font-weight: 700; font-size: clamp(1.3rem, 2vw, 1.7rem); line-height: 1.2; letter-spacing: -.02em; margin-top: .8rem; }
-.hours { margin-top: 1.4rem; border-top: 1px solid var(--ink); font-variant-numeric: tabular-nums; }
-.hours div { display: flex; justify-content: space-between; gap: 1rem; padding: .7rem 0; border-bottom: 1px solid var(--line); }
+.map__pulse { position: absolute; left: 50%; bottom: -8px; width: 18px; height: 8px; margin-left: -9px; border-radius: 50%; background: rgba(234,89,20,.5); animation: pulse 2s ease-out infinite; }
+@keyframes pulse { from { transform: scale(1); opacity: .9; } to { transform: scale(4); opacity: 0; } }
+.loc__card { position: relative; z-index: 2; align-self: center; margin: clamp(16px, 3vw, 36px); width: min(25rem, calc(100% - 32px)); background: #F5F3EF; color: var(--ink); padding: 1.6rem; box-shadow: 0 20px 50px rgba(10,16,22,.35); --muted: #4A4B4F; --line: color-mix(in srgb, var(--ink) 18%, transparent); --orange-text: #A8400A; }
+.loc__card .eyebrow { color: var(--orange-text); margin-top: 1.1rem; }
+.loc__top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.loc__top img { width: 96px; height: auto; }
+.status { display: inline-flex; align-items: center; gap: .45rem; font-family: var(--mono); font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; padding: .4rem .7rem; border-radius: 999px; background: #e7f3ea; color: #1d6b36; }
+.status i { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.status.closed { background: #f6e4dc; color: #A8400A; }
+.addr { font-stretch: 110%; font-weight: 700; font-size: 1.4rem; line-height: 1.2; letter-spacing: -.02em; margin-top: .5rem; }
+.hours { margin-top: 1.1rem; border-top: 1px solid var(--ink); font-variant-numeric: tabular-nums; }
+.hours div { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem .5rem; border-bottom: 1px solid var(--line); }
+.hours div.today { background: rgba(234,89,20,.1); font-weight: 600; }
 .hours dt { color: var(--muted); }
-.hours dd { font-family: var(--mono); font-size: .9rem; }
-.hours .closed dd { color: var(--muted); }
-.visit .cta { margin-top: 1.4rem; }
-.visit .btn--line:hover { background: var(--ink); color: #EDEAE4; }
-.visit .note { margin-top: 1.1rem; font-size: .88rem; color: var(--muted); }
+.hours div.today dt { color: var(--ink); }
+.hours dd { font-family: var(--mono); font-size: .9rem; white-space: nowrap; }
+.loc__card .cta { margin-top: 1.2rem; }
+.loc__card .btn--line:hover { background: var(--ink); color: #EDEAE4; }
+.loc__card .note { margin-top: 1rem; font-size: .85rem; color: var(--muted); }
+
 .bigmark { margin-top: clamp(3rem, 7vw, 5rem); text-align: center; font-stretch: 125%; font-weight: 900; font-size: clamp(4rem, 21vw, 24rem); line-height: .75; letter-spacing: -.06em; color: transparent; -webkit-text-stroke: 1px rgba(237,234,228,.18); white-space: nowrap; user-select: none; -webkit-mask-image: linear-gradient(#000 40%, transparent 95%); mask-image: linear-gradient(#000 40%, transparent 95%); }
 .footer { background: var(--night); color: #A3A4A8; font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; }
 .footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding-block: 1.6rem calc(1.6rem + env(safe-area-inset-bottom, 0px)); border-top: 1px solid rgba(255,255,255,.1); }
@@ -256,6 +272,11 @@ html.dark .logo .logo-d { display: block; }
 @media (max-width: 900px) {
   .nav { display: none; }
   .dani, .contact { grid-template-columns: minmax(0, 1fr); }
+  .loc { min-height: 0; }
+  .map { position: relative; aspect-ratio: 4 / 3; }
+  .map__pin { left: 50%; }
+  .loc__card { width: auto; margin: -2.5rem 12px 0; }
+  .rv { grid-template-columns: minmax(0, 1fr); }
   .rv { grid-template-columns: minmax(0, 1fr); }
   .tiers { grid-template-columns: minmax(0, 1fr); }
   .tiers__img { aspect-ratio: 4 / 3; }
@@ -339,13 +360,13 @@ html.dark .logo .logo-d { display: block; }
   <h1 aria-label="Bici 23 Taller">BICI <span>23</span><small class="sub" data-i18n="hero.tag">Taller de bicicletas · Patraix, València</small></h1>
 </div>
 <div class="st coords l" data-in="-1" data-out="0.07"><span data-scramble>Patraix · València</span><br>39.4631° N · 0.3954° W</div>
-<div class="st coords r" data-in="-1" data-out="0.07"><span data-i18n="hero.hours">L–S 10:00–19:00<br>D 10:00–15:00</span></div>
+<div class="st coords r" data-in="-1" data-out="0.07"><span data-i18n="hero.hours">L–S 10:00–19:00<br>Domingo cerrado</span></div>
 <div class="st hero-meta" data-in="-1" data-out="0.06">
   <div>
     <p data-i18n="hero.p">Reparamos y ponemos a punto todo tipo de bicis: carretera, montaña, gravel, ciudad y eléctricas. Llámanos y te damos presupuesto y plazo antes de empezar.</p>
     <div class="cta">
       <a class="btn btn--fill" href="tel:+34698999849"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg><span data-i18n="cta.call">Llamar</span></a>
-      <a class="btn btn--line" href="https://wa.me/34698999849" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="btn btn--line" href="https://wa.me/34698999849?text=Hola%2C%20quer%C3%ADa%20pedir%20cita%20para%20mi%20bici" target="_blank" rel="noopener">WhatsApp</a>
     </div>
     <a href="#servicios" class="skip"><span data-i18n="hero.skip">Saltar intro</span> <i></i></a>
   </div>
@@ -440,10 +461,10 @@ html.dark .logo .logo-d { display: block; }
             <b>4,9</b><span class="stars" aria-label="5 estrellas">★★★★★</span>
             <small data-i18n="rv.count">109 reseñas en Google</small>
             <p class="words"><span data-i18n="rv.wl">Lo que más repiten</span><span data-i18n="rv.w">precio · mecánico · eficaz · confianza</span></p>
+            <div class="rnav"><button type="button" class="rnav__b" id="rvPrev" aria-label="Reseña anterior">←</button><button type="button" class="rnav__b" id="rvNext" aria-label="Reseña siguiente">→</button></div>
+            <a class="rv__all" href="https://www.google.com/maps/place/Bici+23+Taller/@39.4630665,-0.3953566,17z" target="_blank" rel="noopener" data-i18n="rv.all">Ver todas en Google →</a>
           </div>
-          <figure class="quote reveal"><p>“Gracias Dani! Ha quedado como nueva!”</p><cite data-i18n="rv.ig">Cliente · Instagram</cite></figure>
-          <figure class="quote reveal"><p>“Estoy más tranquilo con la bicicleta de mi hija desde que la revisaste.”</p><cite data-i18n="rv.ig">Cliente · Instagram</cite></figure>
-          <figure class="quote quote--case reveal"><p class="eyebrow" data-i18n="rv.case">Caso real</p><p data-i18n="rv.cased">Una VanMoof S2 con el cable de la asistencia roto. Dani lo soldó, lo montó y la bici hizo 20 km perfecta.</p><cite>Vlad R. · Google</cite></figure>
+          <div class="rtrack reveal" id="rvTrack" tabindex="0" aria-label="Reseñas de clientes"><figure class="rcard"><span class="rcard__stars" aria-label="5 estrellas">★★★★★</span><p>“Rápido, serio y amable. Sobre las 16h se la llevé y estaba arreglada a las 18h. Gracias a ti estoy pasando unas maravillosas vacaciones junto a mis bicis.”</p><figcaption><b>Noelia C.</b><span class="src src--g">Google</span></figcaption></figure><figure class="rcard"><span class="rcard__stars" aria-label="5 estrellas">★★★★★</span><p>“Se nota que el maestro ama su trabajo. Todo quedó limpio, ajustado y funcionando perfectamente. La relación calidad-precio es excelente.”</p><figcaption><b>Vasyamba O.</b><span class="src src--g">Google</span></figcaption></figure><figure class="rcard"><span class="rcard__stars" aria-label="5 estrellas">★★★★★</span><p>“El trato es amable y profesional, los precios son competitivos y las reparaciones se realizan de forma rápida y eficaz. ¡Totalmente recomendable!”</p><figcaption><b>Dmitriy S.</b><span class="src src--g">Google</span></figcaption></figure><figure class="rcard"><span class="rcard__stars" aria-label="5 estrellas">★★★★★</span><p>“Me ayudó a resolver mi problema de forma rápida y eficaz, algo que otros talleres de la zona no quisieron hacer. Recomiendo este taller al 100 %.”</p><figcaption><b>Nikita M.</b><span class="src src--g">Google</span></figcaption></figure><figure class="rcard"><span class="rcard__stars" aria-label="5 estrellas">★★★★★</span><p>“Gran profesional y muy buen precio, además de rápido. Lo llevé a montar un manillar y en menos de 24 h ya la tenía lista.”</p><figcaption><b>Adrián C.</b><span class="src src--g">Google</span></figcaption></figure><figure class="rcard rcard--case"><span class="rcard__stars" aria-label="5 estrellas">★★★★★</span><p>“Una VanMoof S2 con el cable de la asistencia roto. Dani lo soldó, lo montó y la bici hizo 20 km perfecta.”</p><figcaption><b>Vlad R.</b><span class="src src--g">Google</span></figcaption></figure><figure class="rcard"><span class="rcard__stars" aria-label="5 estrellas">★★★★★</span><p>“Gracias Dani! Ha quedado como nueva!”</p><figcaption><b>Cliente</b><span class="src src--ig">Instagram</span></figcaption></figure><figure class="rcard"><span class="rcard__stars" aria-label="5 estrellas">★★★★★</span><p>“Estoy más tranquilo con la bicicleta de mi hija desde que la revisaste.”</p><figcaption><b>Cliente</b><span class="src src--ig">Instagram</span></figcaption></figure></div>
         </div>
       </div>
     </section>
@@ -460,34 +481,36 @@ html.dark .logo .logo-d { display: block; }
             <a class="phone reveal" href="tel:+34698999849">698 99 98 49</a>
             <div class="cta reveal">
               <a class="btn btn--fill" href="tel:+34698999849"><span data-i18n="cta.call">Llamar</span></a>
-              <a class="btn btn--line" href="https://wa.me/34698999849" target="_blank" rel="noopener">WhatsApp</a>
+              <a class="btn btn--line" href="https://wa.me/34698999849?text=Hola%2C%20quer%C3%ADa%20pedir%20cita%20para%20mi%20bici" target="_blank" rel="noopener">WhatsApp</a>
             </div>
+          </div>
+          <div class="contact__side">
             <ol class="steps reveal">
               <li><b data-i18n="h1t">Llama o escribe</b><span data-i18n="h1d">Cuéntanos qué le pasa a tu bici y te decimos precio y plazo.</span></li>
               <li><b data-i18n="h2t">Tráela al taller</b><span data-i18n="h2d">Pintor Pasqual Capuz, 7, en Patraix. Para revisiones, pide cita.</span></li>
               <li><b data-i18n="h3t">Recógela lista</b><span data-i18n="h3d">Te avisamos en cuanto esté. Muchos arreglos salen el mismo día.</span></li>
             </ol>
           </div>
-          <div class="visit reveal" id="donde">
-            <div class="map">
-              <iframe title="Mapa: Bici 23 Taller, C/ Pintor Pasqual Capuz 7, València" src="https://www.google.com/maps?q=Bici+23+Taller,+Carrer+del+Pintor+Pasqual+Capuz+7,+46018+Val%C3%A8ncia&amp;z=17&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
-              <span class="map__tint" aria-hidden="true"></span>
-              <span class="map__pin" aria-hidden="true"><svg viewBox="0 0 40 52"><path d="M20 0C9 0 0 8.6 0 19.3 0 33.8 20 52 20 52s20-18.2 20-32.7C40 8.6 31 0 20 0z"/><circle cx="20" cy="19" r="7.5"/></svg></span>
-              <a class="map__tag" href="https://maps.app.goo.gl/KVtfmCFgm86qAQRm6" target="_blank" rel="noopener"><img src="img/logo.png" alt="" width="64" height="46"><span><b>Bici 23 Taller</b>Pintor Pasqual Capuz, 7</span></a>
+        </div>
+        <div class="loc reveal" id="donde">
+          <div class="map">
+            <iframe title="Mapa: Bici 23 Taller, C/ Pintor Pasqual Capuz 7, València" src="https://www.google.com/maps?q=Bici+23+Taller,+Carrer+del+Pintor+Pasqual+Capuz+7,+46018+Val%C3%A8ncia&amp;z=16&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            <span class="map__tint" aria-hidden="true"></span>
+            <span class="map__pin" aria-hidden="true"><span class="map__pulse"></span><svg viewBox="0 0 40 52"><path d="M20 0C9 0 0 8.6 0 19.3 0 33.8 20 52 20 52s20-18.2 20-32.7C40 8.6 31 0 20 0z"/><circle cx="20" cy="19" r="7.5"/></svg></span>
+          </div>
+          <div class="loc__card">
+            <div class="loc__top"><img src="img/logo.png" alt="Bici 23 Taller" width="320" height="232"><span class="status" id="openStatus"><i></i><span></span></span></div>
+            <p class="eyebrow" data-i18n="vi.eyebrow">Dónde estamos</p>
+            <p class="addr">C/ Pintor Pasqual Capuz, 7<br>46018 València · Patraix</p>
+            <dl class="hours" id="hours">
+              <div data-days="1,2,3,4,5,6"><dt data-i18n="vi.ms">Lunes a sábado</dt><dd>10:00 – 19:00</dd></div>
+              <div data-days="0"><dt data-i18n="vi.sun">Domingo</dt><dd data-i18n="vi.shut">Cerrado</dd></div>
+            </dl>
+            <div class="cta">
+              <a class="btn btn--fill" href="https://www.google.com/maps/dir/?api=1&amp;destination=Bici+23+Taller%2C+Carrer+del+Pintor+Pasqual+Capuz+7%2C+46018+Val%C3%A8ncia" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.7 11.3l-9-9a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4zM14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5z"/></svg><span data-i18n="vi.dir">Cómo llegar</span></a>
+              <a class="btn btn--line" href="https://www.google.com/maps/place/Bici+23+Taller/@39.4630665,-0.3953566,17z" target="_blank" rel="noopener" data-i18n="vi.open2">Abrir en Google Maps</a>
             </div>
-            <div class="visit__body">
-              <p class="eyebrow" data-i18n="vi.eyebrow">Dónde estamos</p>
-              <p class="addr">C/ Pintor Pasqual Capuz, 7<br>46018 València · Patraix</p>
-              <dl class="hours">
-                <div><dt data-i18n="vi.ms">Lunes a sábado</dt><dd>10:00 – 19:00</dd></div>
-                <div><dt data-i18n="vi.sun">Domingo</dt><dd>10:00 – 15:00</dd></div>
-              </dl>
-              <div class="cta">
-                <a class="btn btn--fill" href="https://maps.app.goo.gl/KVtfmCFgm86qAQRm6" target="_blank" rel="noopener" data-i18n="vi.dir">Cómo llegar</a>
-                <a class="btn btn--line" href="https://www.instagram.com/bici23taller/" target="_blank" rel="noopener">Instagram</a>
-              </div>
-              <p class="note" data-i18n="vi.note">¿Nos buscabas en Avenida Aragón? Nos mudamos en mayo de 2026.</p>
-            </div>
+            <p class="note" data-i18n="vi.note">¿Nos buscabas en Avenida Aragón? Nos mudamos en mayo de 2026.</p>
           </div>
         </div>
       </div>
@@ -504,7 +527,7 @@ html.dark .logo .logo-d { display: block; }
 
 <div class="callbar">
   <a class="btn btn--fill" href="tel:+34698999849" data-i18n="cta.call">Llamar</a>
-  <a class="btn btn--wa" href="https://wa.me/34698999849" target="_blank" rel="noopener">WhatsApp</a>
+  <a class="btn btn--wa" href="https://wa.me/34698999849?text=Hola%2C%20quer%C3%ADa%20pedir%20cita%20para%20mi%20bici" target="_blank" rel="noopener">WhatsApp</a>
 </div>
 
 <script>
@@ -513,6 +536,7 @@ document.documentElement.classList.add('js');
 window.I18N = {
 es: {},
 en: {
+ "rv.all":"See all on Google →", "vi.open2":"Open in Google Maps", "vi.isopen":"Open now", "vi.isclosed":"Closed now",
  "s8d":"Lubing, waxing and a deep drivetrain clean.",
  "s8t":"Chain and cleaning",
  "s9d":"We fit drivetrain and brake parts, and any accessory.",
@@ -531,7 +555,7 @@ en: {
  "s2t":"Hydraulic brakes",
  "srv.eyebrow":"Services · Tune-ups", "srv.h":"Three levels of<br><em>tune-up.</em>", "t.b":"Basic", "t.a":"Advanced", "t.c":"Full", "t.plusB":"Everything in Basic, plus:", "t.plusA":"Everything in Advanced, plus servicing of:", "t.i1":"Brake adjustment", "t.i2":"Gear adjustment", "t.i3":"Headset adjustment", "t.i4":"Bolt check and tightening", "t.i5":"Chain lube", "t.i6":"Tyre inflation", "t.i7":"Chain and brake pad wear check", "t.i8":"Drivetrain clean", "t.i9":"Wheel truing", "t.i10":"Hub adjustment", "t.i11":"Headset bearings", "t.i12":"Wheel bearings", "t.i13":"Bottom bracket bearings", "t.note":"The price depends on the bike's type and condition. Call us and we'll tell you straight away.", "jobs.h":"What we do in the workshop", "j1":"Gear and brake adjustment", "j2":"Hydraulic brake bleeding", "j3":"Wheel truing", "j4":"Tube and tyre, e-bikes too", "j5":"Brake and gear cables", "j6":"Tubeless setup", "j7":"Bike assembly", "j8":"Fitting parts and accessories", "vi.ms":"Monday to Saturday",
  "nav.services":"Services","nav.shop":"The workshop","nav.reviews":"Reviews","nav.visit":"Find us","nav.contact":"Contact","cta.quote":"Get a quote","cta.call":"Call",
- "hero.tag":"Bike repair workshop · Patraix, Valencia","hero.hours":"Mon–Sat 10:00–19:00<br>Sun 10:00–15:00",
+ "hero.tag":"Bike repair workshop · Patraix, Valencia","hero.hours":"Mon–Sat 10:00–19:00<br>Closed Sundays",
  "hero.p":"We repair and tune every kind of bike: road, mountain, gravel, city and e-bikes. Call us and we'll give you a quote and a time frame before we start.",
  "hero.skip":"Skip intro","hero.rating":"109 reviews on Google",
  "ex.eyebrow":"Exploded view","ex.h":"Every part,<br><em>checked.</em>","ex.p":"We strip, clean, adjust and rebuild. With the same care for a city bike as for a carbon one.",
@@ -548,10 +572,11 @@ en: {
  "dani.f1":"New premises since May 2026","dani.f2":"Wheelchair accessible",
  "rv.eyebrow":"Reviews","rv.h":"What people say<br><em>on Google.</em>","rv.count":"109 reviews on Google","rv.wl":"Most mentioned","rv.w":"price · mechanic · efficient · trust",
  "rv.ig":"Customer · Instagram","rv.g":"Google reviews","rv.case":"Real case","rv.cased":"A VanMoof S2 with a broken assist cable. Dani soldered it, refitted it and the bike did 20 km flawlessly.",
- "vi.eyebrow":"Find us","vi.h":"Come and see us<br><em>in Patraix.</em>","vi.sun":"Sunday","vi.dir":"Get directions","vi.note":"Looking for us on Avenida Aragón? We moved in May 2026.",
+ "vi.eyebrow":"Find us","vi.h":"Come and see us<br><em>in Patraix.</em>","vi.sun":"Sunday","vi.shut":"Closed","vi.dir":"Get directions","vi.note":"Looking for us on Avenida Aragón? We moved in May 2026.",
  "fi.eyebrow":"Free quote","fi.h":"What's wrong<br><em>with your bike?</em>","fi.p":"Call or WhatsApp us for a price and a time frame."
 },
 ru: {
+ "rv.all":"Все отзывы в Google →", "vi.open2":"Открыть в Google Maps", "vi.isopen":"Сейчас открыто", "vi.isclosed":"Сейчас закрыто",
  "s8d":"Смазка, вощение и глубокая чистка трансмиссии.",
  "s8t":"Цепь и чистка",
  "s9d":"Ставим детали трансмиссии и тормозов, любые аксессуары.",
@@ -570,7 +595,7 @@ ru: {
  "s2t":"Гидравлические тормоза",
  "srv.eyebrow":"Услуги · Обслуживание", "srv.h":"Три уровня<br><em>обслуживания.</em>", "t.b":"Базовое", "t.a":"Расширенное", "t.c":"Полное", "t.plusB":"Всё из базового, плюс:", "t.plusA":"Всё из расширенного, плюс обслуживание:", "t.i1":"Настройка тормозов", "t.i2":"Настройка переключателей", "t.i3":"Настройка рулевой колонки", "t.i4":"Протяжка болтов", "t.i5":"Смазка цепи", "t.i6":"Подкачка колёс", "t.i7":"Проверка износа цепи и колодок", "t.i8":"Чистка трансмиссии", "t.i9":"Центровка колёс", "t.i10":"Настройка втулок", "t.i11":"Подшипники рулевой", "t.i12":"Подшипники колёс", "t.i13":"Подшипники каретки", "t.note":"Цена зависит от типа и состояния велосипеда. Позвоните — сразу скажем.", "jobs.h":"Что мы делаем в мастерской", "j1":"Настройка переключателей и тормозов", "j2":"Прокачка гидравлических тормозов", "j3":"Центровка колёс", "j4":"Камера и покрышка, и на электро", "j5":"Тросики тормоза и переключения", "j6":"Перевод на бескамерку", "j7":"Сборка велосипеда", "j8":"Установка запчастей и аксессуаров", "vi.ms":"Понедельник – суббота",
  "nav.services":"Услуги","nav.shop":"Мастерская","nav.reviews":"Отзывы","nav.visit":"Как нас найти","nav.contact":"Контакты","cta.quote":"Узнать цену","cta.call":"Позвонить",
- "hero.tag":"Ремонт велосипедов · Патраикс, Валенсия","hero.hours":"Пн–Сб 10:00–19:00<br>Вс 10:00–15:00",
+ "hero.tag":"Ремонт велосипедов · Патраикс, Валенсия","hero.hours":"Пн–Сб 10:00–19:00<br>Вс выходной",
  "hero.p":"Ремонтируем и обслуживаем любые велосипеды: шоссейные, горные, гравийные, городские и электровелосипеды. Позвоните — назовём цену и сроки до начала работы.",
  "hero.skip":"Пропустить","hero.rating":"109 отзывов в Google",
  "ex.eyebrow":"Разбор","ex.h":"Каждая деталь —<br><em>под контролем.</em>","ex.p":"Разбираем, чистим, настраиваем и собираем обратно. С одинаковой заботой — городской велосипед или карбоновый.",
@@ -587,10 +612,11 @@ ru: {
  "dani.f1":"Новое помещение с мая 2026","dani.f2":"Доступно для колясок",
  "rv.eyebrow":"Отзывы","rv.h":"Что пишут<br><em>в Google.</em>","rv.count":"109 отзывов в Google","rv.wl":"Чаще всего пишут","rv.w":"цена · механик · быстро · доверие",
  "rv.ig":"Клиент · Instagram","rv.g":"Отзывы в Google","rv.case":"Реальный случай","rv.cased":"VanMoof S2 с оборванным кабелем ассиста. Данила всё спаял, собрал — и 20 км без единой проблемы.",
- "vi.eyebrow":"Как нас найти","vi.h":"Ждём вас<br><em>в Патраиксе.</em>","vi.sun":"Воскресенье","vi.dir":"Проложить маршрут","vi.note":"Искали нас на Avenida Aragón? В мае 2026 мы переехали.",
+ "vi.eyebrow":"Как нас найти","vi.h":"Ждём вас<br><em>в Патраиксе.</em>","vi.sun":"Воскресенье","vi.shut":"Выходной","vi.dir":"Проложить маршрут","vi.note":"Искали нас на Avenida Aragón? В мае 2026 мы переехали.",
  "fi.eyebrow":"Бесплатная оценка","fi.h":"Что случилось<br><em>с велосипедом?</em>","fi.p":"Позвоните или напишите в WhatsApp — назовём цену и срок."
 },
 uk: {
+ "rv.all":"Усі відгуки в Google →", "vi.open2":"Відкрити в Google Maps", "vi.isopen":"Зараз відчинено", "vi.isclosed":"Зараз зачинено",
  "jobs.h":"Що ми робимо в майстерні",
  "s8d":"Змащення, вощення та глибоке чищення трансмісії.",
  "s8t":"Ланцюг і чищення",
@@ -610,7 +636,7 @@ uk: {
  "s2t":"Гідравлічні гальма",
  "srv.eyebrow":"Послуги · Обслуговування", "srv.h":"Три рівні<br><em>обслуговування.</em>", "t.b":"Базове", "t.a":"Розширене", "t.c":"Повне", "t.plusB":"Усе з базового, плюс:", "t.plusA":"Усе з розширеного, плюс обслуговування:", "t.i1":"Налаштування гальм", "t.i2":"Налаштування перемикачів", "t.i3":"Налаштування рульової колонки", "t.i4":"Протяжка болтів", "t.i5":"Змащення ланцюга", "t.i6":"Підкачування коліс", "t.i7":"Перевірка зносу ланцюга й колодок", "t.i8":"Чищення трансмісії", "t.i9":"Центрування коліс", "t.i10":"Налаштування втулок", "t.i11":"Підшипники рульової", "t.i12":"Підшипники коліс", "t.i13":"Підшипники каретки", "t.note":"Ціна залежить від типу та стану велосипеда. Зателефонуйте — одразу скажемо.", "jobs.h":"Інші роботи", "j1":"Налаштування перемикачів і гальм", "j2":"Прокачування гідравлічних гальм", "j3":"Центрування коліс", "j4":"Камера й покришка, і на електро", "j5":"Тросики гальма й перемикання", "j6":"Переведення на безкамерку", "j7":"Збирання велосипеда", "j8":"Встановлення запчастин і аксесуарів", "vi.ms":"Понеділок – субота",
  "nav.services":"Послуги","nav.shop":"Майстерня","nav.reviews":"Відгуки","nav.visit":"Як нас знайти","nav.contact":"Контакти","cta.quote":"Дізнатися ціну","cta.call":"Зателефонувати",
- "hero.tag":"Ремонт велосипедів · Патраїкс, Валенсія","hero.hours":"Пн–Сб 10:00–19:00<br>Нд 10:00–15:00",
+ "hero.tag":"Ремонт велосипедів · Патраїкс, Валенсія","hero.hours":"Пн–Сб 10:00–19:00<br>Нд вихідний",
  "hero.p":"Ремонтуємо й обслуговуємо будь-які велосипеди: шосейні, гірські, гравійні, міські та електровелосипеди. Зателефонуйте — назвемо ціну й терміни до початку роботи.",
  "hero.skip":"Пропустити","hero.rating":"109 відгуків у Google",
  "ex.eyebrow":"Розбір","ex.h":"Кожна деталь —<br><em>під контролем.</em>","ex.p":"Розбираємо, чистимо, налаштовуємо й збираємо назад. З однаковою турботою — міський велосипед чи карбоновий.",
@@ -627,7 +653,7 @@ uk: {
  "dani.f1":"Нове приміщення з травня 2026","dani.f2":"Доступно для візків",
  "rv.eyebrow":"Відгуки","rv.h":"Що пишуть<br><em>у Google.</em>","rv.count":"109 відгуків у Google","rv.wl":"Найчастіше пишуть","rv.w":"ціна · механік · швидко · довіра",
  "rv.ig":"Клієнт · Instagram","rv.g":"Відгуки в Google","rv.case":"Реальний випадок","rv.cased":"VanMoof S2 з обірваним кабелем асисту. Данило все спаяв, зібрав — і 20 км без жодної проблеми.",
- "vi.eyebrow":"Як нас знайти","vi.h":"Чекаємо на вас<br><em>у Патраїксі.</em>","vi.sun":"Неділя","vi.dir":"Прокласти маршрут","vi.note":"Шукали нас на Avenida Aragón? У травні 2026 ми переїхали.",
+ "vi.eyebrow":"Як нас знайти","vi.h":"Чекаємо на вас<br><em>у Патраїксі.</em>","vi.sun":"Неділя","vi.shut":"Вихідний","vi.dir":"Прокласти маршрут","vi.note":"Шукали нас на Avenida Aragón? У травні 2026 ми переїхали.",
  "fi.eyebrow":"Безкоштовна оцінка","fi.h":"Що сталося<br><em>з велосипедом?</em>","fi.p":"Зателефонуйте або напишіть у WhatsApp — назвемо ціну й термін."
 }};
 (function () {
@@ -651,6 +677,39 @@ uk: {
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
+
+  // reseñas: carrusel con desplazamiento suave, flechas, arrastre y avance automático
+  const track = document.getElementById('rvTrack');
+  if (track) {
+    const step = () => (track.querySelector('.rcard')?.offsetWidth || 300) + 12;
+    const go = d => { const max = track.scrollWidth - track.clientWidth; let x = track.scrollLeft + d * step(); if (x > max + 5) x = 0; if (x < -5) x = max; track.scrollTo({ left: x, behavior: 'smooth' }); };
+    document.getElementById('rvPrev').addEventListener('click', () => { go(-1); hold(); });
+    document.getElementById('rvNext').addEventListener('click', () => { go(1); hold(); });
+    let paused = false, timer = null, until = 0;
+    const hold = () => { until = Date.now() + 8000; };
+    track.addEventListener('mouseenter', () => paused = true); track.addEventListener('mouseleave', () => paused = false);
+    track.addEventListener('touchstart', hold, { passive: true });
+    let down = false, sx = 0, sl = 0;
+    track.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; down = true; sx = e.clientX; sl = track.scrollLeft; track.classList.add('drag'); });
+    addEventListener('pointerup', () => { if (!down) return; down = false; track.classList.remove('drag'); hold(); });
+    addEventListener('pointermove', e => { if (down) track.scrollLeft = sl - (e.clientX - sx); });
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) timer = setInterval(() => { if (!paused && !down && Date.now() > until && document.visibilityState === 'visible') go(1); }, 4500);
+  }
+  // ¿abierto ahora? (hora de València)
+  const st = document.getElementById('openStatus');
+  function openNow() {
+    if (!st) return;
+    const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date());
+    const wd = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[parts.find(x => x.type === 'weekday').value];
+    const h = +parts.find(x => x.type === 'hour').value + (+parts.find(x => x.type === 'minute').value) / 60;
+    const isOpen = wd !== 0 && h >= 10 && h < 19;
+    document.querySelectorAll('#hours > div').forEach(d => d.classList.toggle('today', d.dataset.days.split(',').map(Number).includes(wd)));
+    st.classList.toggle('closed', !isOpen);
+    const t = I18N[LANG] || {}, e = I18N.es;
+    st.querySelector('span').textContent = isOpen ? (t['vi.isopen'] || e['vi.isopen']) : (t['vi.isclosed'] || e['vi.isclosed']);
+  }
+  I18N.es['vi.isopen'] = 'Abierto ahora'; I18N.es['vi.isclosed'] = 'Cerrado ahora';
+  openNow(); setInterval(openNow, 60000); addEventListener('langchange', openNow);
   // carga: la bici se dibuja; se va al terminar (o a los 4 s si el 3D no llega)
   const loader = document.getElementById('loader'), txt = document.getElementById('loadTxt');
   const paths = [...document.querySelectorAll('#loadPath > *')];
