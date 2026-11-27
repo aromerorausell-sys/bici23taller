@@ -311,6 +311,12 @@ html.dark .logo .logo-d { display: block; }
   .callbar .btn { justify-content: center; padding: .9rem 1rem; }
   .callbar .btn--wa { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
   .footer .wrap { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
+  .callbar { transition: transform .35s var(--ease), opacity .35s; }
+  .callbar.off { transform: translateY(110%); opacity: 0; pointer-events: none; }
+  .hero-logo h1 { font-size: 21vw; }
+  .hero-logo { top: 12vh; }
+  .rcard { min-height: 0; }
+  .rcard figcaption { margin-top: auto; }
 }
 @media (max-width: 520px) {
   .srv { grid-template-columns: minmax(0, 1fr); }
@@ -509,7 +515,7 @@ html.dark .logo .logo-d { display: block; }
           <div class="loc__card">
             <div class="loc__top"><img src="img/logo.png" alt="Bici 23 Taller" width="320" height="232"><span class="status" id="openStatus"><i></i><span></span></span></div>
             <p class="eyebrow" data-i18n="vi.eyebrow">Dónde estamos</p>
-            <p class="addr">C/ Pintor Pasqual Capuz, 7<br>46018 València · Patraix</p>
+            <p class="addr">C/ Pintor Pasqual Capuz,&nbsp;7<br>46018 València · Patraix</p>
             <dl class="hours" id="hours">
               <div data-days="1,2,3,4,5,6"><dt data-i18n="vi.ms">Lunes a sábado</dt><dd>10:00 – 19:00</dd></div>
               <div data-days="0"><dt data-i18n="vi.sun">Domingo</dt><dd data-i18n="vi.shut">Cerrado</dd></div>
@@ -716,6 +722,8 @@ uk: {
     const t = I18N[LANG] || {}, e = I18N.es;
     st.querySelector('span').textContent = isOpen ? (t['vi.isopen'] || e['vi.isopen']) : (t['vi.isclosed'] || e['vi.isclosed']);
   }
+  const cb = document.querySelector('.callbar'), ct = document.getElementById('contacto');
+  if (cb && ct && 'IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => cb.classList.toggle('off', e.isIntersecting)), { rootMargin: '0px 0px -30% 0px' }).observe(ct);
   I18N.es['vi.isopen'] = 'Abierto ahora'; I18N.es['vi.isclosed'] = 'Cerrado ahora';
   openNow(); setInterval(openNow, 60000); addEventListener('langchange', openNow);
   // carga: la bici se dibuja; se va al terminar (o a los 4 s si el 3D no llega)
@@ -979,7 +987,9 @@ window.addEventListener('langchange', () => { const i = curType; curType = -1; s
 
 function resize() {
   const w = innerWidth, h = innerHeight;
-  renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  renderer.setSize(w, h, false); camera.aspect = w / h;
+  if (w < h) camera.setViewOffset(w, h, w * .07, h * .14, w, h); else camera.clearViewOffset();
+  camera.updateProjectionMatrix();
 }
 addEventListener('resize', resize); resize();
 const onScroll = () => { const max = story.offsetHeight - innerHeight; target = Math.min(1, Math.max(0, scrollY / max)); };
@@ -997,9 +1007,10 @@ function frame(now) {
   if (pastStory) return;
 
   const s = sample(p);
-  const f = camera.aspect < 1 ? Math.min(2, .82 / camera.aspect) : 1;
+  const port = camera.aspect < 1;
+  const f = port ? Math.min(2.5, 1.02 / camera.aspect) : 1;
   const look = V(...s.look), cam = V(...s.cam);
-  if (camera.aspect < 1) { look.y -= .12; cam.y -= .12; }
+  if (port) { look.y -= .12; cam.y -= .12; }
   camera.position.copy(look).add(cam.sub(look).multiplyScalar(f));
   camera.lookAt(look);
   holder.rotation.y = s.rot;
@@ -1047,7 +1058,8 @@ function frame(now) {
     a.getWorldPosition(tmp); tmp.project(camera);
     const x = (tmp.x * W2) + W2, y = (-tmp.y * H2) + H2;
     const k = innerWidth < 600 ? .55 : 1;
-    const lx = x + (+el.dataset.dx) * k, ly = y + (+el.dataset.dy) * k;
+    let lx = x + (+el.dataset.dx) * k; const ly = y + (+el.dataset.dy) * k;
+    if (k < 1) { const lw = (el.firstElementChild || el).offsetWidth + 14; lx = el.classList.contains('left') ? Math.max(lw, lx) : Math.min(innerWidth - lw, lx); }
     el.style.opacity = lv; el.style.transform = `translate(${lx + (el.classList.contains('left') ? -6 : 6)}px, ${ly}px)`;
     lines[i].setAttribute('x1', x); lines[i].setAttribute('y1', y); lines[i].setAttribute('x2', lx); lines[i].setAttribute('y2', ly);
     lines[i].style.opacity = dots[i].style.opacity = lv;
