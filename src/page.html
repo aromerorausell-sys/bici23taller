@@ -8,9 +8,10 @@
 /* Concepto: un único lienzo 3D fijo (la bici, modelada por código) y planos atados al scroll; después, flujo normal sobre papel de taller. */
 :root {
   --paper: #E8E5DF;      /* hormigón claro del taller */
-  --ink: #131314;        /* negro del rótulo */
-  --night: #0F1011;      /* paso a oscuro */
-  --orange: #F2661B;     /* naranja del logo */
+  --ink: #1F2B37;        /* azul marino del logo (texto) */
+  --navy: #293744;       /* azul marino del logo */
+  --night: #141C24;      /* paso a oscuro, marino profundo */
+  --orange: #EA5914;     /* naranja del logo */
   --osb: #C9A877;        /* tablero OSB del panel de herramientas */
   --steel: #8B8F95;      /* acero / aluminio */
   --muted: #4E4F53;
@@ -30,7 +31,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: var(--story-bg); }
 body { background: var(--story-bg); color: var(--fg); font-family: var(--display); font-weight: 400; font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; transition: color .6s; }
-html.dark { --fg: #EDEAE4; --muted: #B4B5B9; --orange-text: #F2661B; --orange-display: #F2661B; }
+html.dark { --fg: #EDEAE4; --muted: #B4B5B9; --orange-text: #EA5914; --orange-display: #EA5914; }
 img { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
@@ -47,7 +48,7 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
 #gl { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 2; pointer-events: none; display: block; }
 .grain { position: fixed; inset: 0; z-index: 30; pointer-events: none; opacity: .05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"); }
-.marks { position: fixed; inset: 5.5rem var(--pad) 1.5rem; z-index: 3; pointer-events: none; transition: opacity .6s; }
+.marks { position: fixed; inset: 6.2rem var(--pad) 1.5rem; z-index: 3; pointer-events: none; transition: opacity .6s; }
 .marks i { position: absolute; width: 14px; height: 14px; border-color: color-mix(in srgb, var(--fg) 40%, transparent); border-style: solid; border-width: 0; }
 .marks i:nth-child(1) { left: 0; top: 0; border-left-width: 1px; border-top-width: 1px; }
 .marks i:nth-child(2) { right: 0; top: 0; border-right-width: 1px; border-top-width: 1px; }
@@ -64,19 +65,21 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
 
 /* ---------- cabecera ---------- */
 .header { position: fixed; top: 0; left: 0; right: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-  padding: calc(1.1rem + env(safe-area-inset-top, 0px)) max(16px, 4vw, env(safe-area-inset-right, 0px)) 1.1rem max(16px, 4vw, env(safe-area-inset-left, 0px)); color: #fff; mix-blend-mode: difference; }
-.logo { display: flex; align-items: baseline; gap: .55rem; line-height: 1; }
-.logo b { font-stretch: 125%; font-weight: 900; font-size: 1.45rem; letter-spacing: -.04em; }
-.logo span { font-family: var(--mono); font-size: .6rem; letter-spacing: .3em; opacity: .75; }
+  padding: calc(.6rem + env(safe-area-inset-top, 0px)) max(16px, 4vw, env(safe-area-inset-right, 0px)) .6rem max(16px, 4vw, env(safe-area-inset-left, 0px));
+  color: var(--fg); background: color-mix(in srgb, var(--story-bg) 90%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: color .6s; }
+.logo { display: block; line-height: 0; }
+.logo img { height: 50px; width: auto; }
+.logo .logo-d, html.dark .logo .logo-l { display: none; }
+html.dark .logo .logo-d { display: block; }
 .nav { display: flex; gap: clamp(1rem, 2.2vw, 2.2rem); font-family: var(--mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; }
-.nav a { opacity: .75; transition: opacity .3s; }
+.nav a { opacity: .85; transition: opacity .3s; }
 .nav a:hover { opacity: 1; }
 .hright { display: flex; align-items: center; gap: 1rem; font-family: var(--mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; }
 .langs { display: flex; gap: .15rem; }
-.langs button { padding: .3rem .35rem; opacity: .5; letter-spacing: .1em; text-transform: uppercase; font-size: .68rem; font-family: var(--mono); }
+.langs button { padding: .3rem .35rem; opacity: .6; letter-spacing: .1em; text-transform: uppercase; font-size: .68rem; font-family: var(--mono); }
 .langs button[aria-pressed="true"] { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
 .pill { border: 1px solid currentColor; border-radius: 999px; padding: .5rem .95rem; white-space: nowrap; }
-.pill:hover { background: #fff; color: #000; }
+.pill:hover { background: var(--fg); color: var(--story-bg); }
 
 .rail { position: fixed; right: max(16px, 1.6vw); top: 50%; transform: translateY(-50%); z-index: 20; height: 24vh; width: 1px; background: color-mix(in srgb, var(--fg) 20%, transparent); transition: opacity .4s; }
 .rail span { position: absolute; inset: 0; background: var(--orange); transform-origin: top; transform: scaleY(0); }
@@ -101,39 +104,43 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
 .btn--fill:hover { background: var(--ink); color: #fff; }
 .btn--line { border: 1px solid currentColor; }
 .btn--line:hover { background: var(--fg); color: var(--story-bg); }
+.rating:hover b { color: var(--orange-text); }
 .rating { display: flex; flex-direction: column; align-items: flex-end; gap: .25rem; text-align: right; }
 .rating b { font-stretch: 112%; font-weight: 800; font-size: 2.6rem; line-height: 1; letter-spacing: -.04em; }
 .stars { color: var(--orange-text); letter-spacing: .15em; font-size: .9rem; }
 .rating small { font-family: var(--mono); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .skip { font-family: var(--mono); font-size: .64rem; letter-spacing: .2em; text-transform: uppercase; display: inline-flex; gap: .6rem; align-items: center; margin-top: .8rem; }
 .skip i { display: block; width: 40px; height: 1px; background: currentColor; }
-.coords { top: 6.4rem; font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; line-height: 1.8; text-transform: uppercase; color: var(--muted); }
+.coords { top: 7rem; font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; line-height: 1.8; text-transform: uppercase; color: var(--muted); }
 .coords.l { left: calc(var(--pad) + 1.4rem); }
 .coords.r { right: calc(var(--pad) + 1.4rem); text-align: right; }
 
 .giant { left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; font-stretch: 125%; font-weight: 900; font-size: clamp(5rem, 21vw, 26rem); line-height: .85; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 1px color-mix(in srgb, var(--fg) 22%, transparent); white-space: nowrap; }
 .side { top: 50%; max-width: 23rem; }
 .side.l { left: var(--pad); }
+.side--top { top: 7.4rem !important; max-width: 20rem; }
+.side--top .h2 { font-size: clamp(1.8rem, 2.8vw, 2.8rem) !important; }
+.side--top p { font-size: .92rem; }
 .side.r { right: calc(var(--pad) + 1.5rem); text-align: right; }
 .side .h2 { font-size: clamp(2.1rem, 4vw, 4rem); margin-top: .9rem; }
 .side p { margin-top: 1.1rem; color: var(--muted); }
 .side .src { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; margin-top: 1.2rem; }
 .hero-meta p, .side p, .types__p, .hero-logo .sub { text-shadow: 0 0 10px var(--story-bg), 0 0 4px var(--story-bg), 0 0 2px var(--story-bg); }
 
-.label { position: fixed; left: 0; top: 0; z-index: 5; pointer-events: none; opacity: 0; font-family: var(--mono); font-size: .64rem; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; line-height: 1.5; color: var(--fg); }
-.label .in { transform: translateY(-50%); }
-.label.left .in { transform: translate(-100%, -50%); text-align: right; }
-.label .in { text-shadow: 0 0 6px var(--story-bg), 0 0 3px var(--story-bg), 0 0 1px var(--story-bg); }
-.label b { display: block; font-weight: 500; color: var(--orange-text); }
+.label { position: fixed; left: 0; top: 0; z-index: 5; pointer-events: none; opacity: 0; font-family: var(--mono); font-size: .74rem; letter-spacing: .04em; text-transform: uppercase; line-height: 1.35; color: var(--fg); }
+.label .in { transform: translateY(-50%); background: var(--paper); border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent); border-left: 3px solid var(--orange); padding: .55rem .75rem; width: 15.5rem; box-shadow: 0 6px 18px rgba(20,28,36,.08); }
+.label.left .in { transform: translate(-100%, -50%); }
+.label b { display: block; font-weight: 500; font-size: .82rem; color: var(--orange-text); margin-bottom: .1rem; }
 .leaders { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 5; pointer-events: none; overflow: visible; }
-.leaders line { stroke: color-mix(in srgb, var(--fg) 45%, transparent); stroke-width: 1; }
+.leaders line { stroke: var(--ink); stroke-opacity: .55; stroke-width: 1; }
 .leaders circle { fill: var(--orange); }
 
 .types { left: var(--pad); bottom: 3rem; right: var(--pad); display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; }
 .types__name { font-stretch: 125%; font-weight: 900; font-size: clamp(3rem, 9vw, 9rem); line-height: .85; letter-spacing: -.05em; margin-top: .6rem; }
 .types__list { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .4rem; max-width: 30rem; }
-.types__list li { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; border: 1px solid color-mix(in srgb, var(--fg) 30%, transparent); border-radius: 999px; padding: .4rem .75rem; transition: background .3s, color .3s, border-color .3s; }
-.types__list li.on { background: var(--orange); border-color: var(--orange); color: var(--ink); }
+.types__list button { font-family: var(--mono); font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; border: 1px solid color-mix(in srgb, var(--fg) 40%, transparent); border-radius: 999px; padding: .6rem 1rem; cursor: pointer; transition: background .3s, color .3s, border-color .3s; }
+.types__list button:hover { border-color: var(--orange); color: var(--orange); }
+.types__list button.on { background: var(--orange); border-color: var(--orange); color: var(--ink); }
 .types__p { max-width: 22rem; color: var(--muted); margin-top: .9rem; }
 
 /* ---------- flujo ---------- */
@@ -148,14 +155,22 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
 .head__side { max-width: 26rem; display: flex; flex-direction: column; gap: 1rem; }
 .head__side p { color: var(--muted); }
 .head__side .cta { margin-top: 0; }
-.srv { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
-.srv li { padding: 1.4rem 1.3rem 1.6rem 0; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: .5rem; min-width: 0; }
-.srv li + li { padding-left: 1.3rem; border-left: 1px solid var(--line); }
-.srv li:nth-child(4n+1) { padding-left: 0; border-left: 0; }
-.srv .code { font-family: var(--mono); font-size: .68rem; letter-spacing: .14em; color: var(--steel-text); text-transform: uppercase; }
-.srv h3 { font-stretch: 110%; font-weight: 700; font-size: 1.25rem; line-height: 1.15; letter-spacing: -.02em; }
-.srv p { color: var(--muted); font-size: .95rem; }
-.srv .price { margin-top: auto; padding-top: .4rem; font-family: var(--mono); font-size: .78rem; font-weight: 500; letter-spacing: .08em; color: var(--orange-text); text-transform: uppercase; }
+.tiers { display: grid; grid-template-columns: minmax(0, 1.15fr) repeat(3, minmax(0, 1fr)); gap: 10px; }
+.tiers__img { overflow: hidden; background: #222; min-height: 100%; }
+.tiers__img img { width: 100%; height: 100%; object-fit: cover; }
+.tier { background: #F5F3EF; padding: 1.5rem 1.4rem 1.7rem; min-width: 0; display: flex; flex-direction: column; gap: .7rem; }
+.tier .code { font-family: var(--mono); font-size: .7rem; letter-spacing: .14em; color: var(--steel-text); }
+.tier h3 { font-stretch: 112%; font-weight: 800; font-size: 1.7rem; line-height: 1; letter-spacing: -.03em; }
+.tier .plus { font-size: .88rem; font-weight: 600; color: var(--ink); }
+.tier ul { display: grid; gap: .45rem; }
+.tier li { position: relative; padding-left: 1.2rem; font-size: .93rem; color: var(--muted); line-height: 1.35; }
+.tier li::before { content: ""; position: absolute; left: 0; top: .45em; width: .55rem; height: .55rem; border-radius: 50%; border: 2px solid var(--orange); }
+.tier--full { background: var(--navy); color: #EDEAE4; --muted: #C3C8CE; --steel-text: #AEB4BB; }
+.tier--full .plus { color: #fff; }
+.tiers__note { margin-top: 1.1rem; color: var(--muted); font-size: .92rem; }
+.jobs__h { margin-top: clamp(2.5rem, 5vw, 3.5rem); font-family: var(--mono); font-size: .72rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--orange-text); }
+.jobs { margin-top: 1rem; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+.jobs li { padding: .95rem 1rem .95rem 0; border-bottom: 1px solid var(--line); font-weight: 600; font-size: 1rem; line-height: 1.3; min-width: 0; }
 
 .about { padding-top: 0; }
 .dani { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
@@ -164,7 +179,9 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
 .dani__img .tag { position: absolute; right: -10px; bottom: -14px; background: var(--orange); color: var(--ink); font-family: var(--mono); font-size: .68rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; padding: .55rem .8rem; }
 .dani p { color: var(--muted); margin-top: 1.4rem; max-width: 32rem; font-size: 1.05rem; }
 .facts { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.6rem; }
-.facts li { font-family: var(--mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; border: 1px solid color-mix(in srgb, var(--ink) 35%, transparent); border-radius: 999px; padding: .45rem .8rem; }
+.facts { gap: .3rem 1.2rem !important; }
+.facts li { font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); padding-left: .9rem; position: relative; }
+.facts li::before { content: ""; position: absolute; left: 0; top: .45em; width: .4rem; height: .4rem; background: var(--orange); border-radius: 50%; }
 
 .rv { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: clamp(3rem, 6vw, 5rem); }
 .score { padding: 1.6rem 0; min-width: 0; }
@@ -181,10 +198,11 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
 .quote--case .eyebrow { color: var(--ink); }
 .quote--case p { font-family: var(--display); font-size: 1rem; line-height: 1.45; }
 
-.final { background: var(--night); color: #EDEAE4; overflow: hidden; --muted: #B4B5B9; --orange-display: #F2661B; --line: rgba(237,234,228,.18); }
+.final { background: var(--night); color: #EDEAE4; overflow: hidden; --muted: #B4B5B9; --orange-display: #EA5914; --line: rgba(237,234,228,.18); }
 .final .eyebrow { color: var(--orange); }
 .contact { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
 .final .h2 { font-size: clamp(2.6rem, 6vw, 5.6rem); }
+.contact__logo { width: 150px; height: auto; margin-bottom: 1.6rem; }
 .contact__main > p { color: var(--muted); margin-top: 1.1rem; max-width: 30rem; }
 .final .btn--line:hover { background: #EDEAE4; color: var(--night); }
 .phone { display: block; margin-top: 1.8rem; font-stretch: 125%; font-weight: 900; font-size: clamp(2.1rem, 4.6vw, 4.6rem); letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; color: #fff; white-space: nowrap; }
@@ -221,11 +239,12 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
 /* ---------- móvil ---------- */
 @media (max-width: 900px) {
   .nav { display: none; }
-  .srv { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .srv li:nth-child(n) { padding-left: 1.2rem; border-left: 1px solid color-mix(in srgb, var(--ink) 18%, transparent); }
-  .srv li:nth-child(2n+1) { padding-left: 0; border-left: 0; }
   .dani, .contact { grid-template-columns: minmax(0, 1fr); }
   .rv { grid-template-columns: minmax(0, 1fr); }
+  .tiers { grid-template-columns: minmax(0, 1fr); }
+  .tiers__img { aspect-ratio: 4 / 3; }
+  .jobs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .logo img { height: 42px; }
   .head__side .cta { display: none; }
   .coords { display: none; }
   .hero-meta .cta { display: none; }
@@ -239,7 +258,11 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
   .rating { align-items: flex-start; text-align: left; flex-direction: row; align-items: baseline; gap: .6rem; }
   .rating b { font-size: 1.6rem; }
   .hero-logo { top: 16vh; }
-  .label { font-size: .55rem; }
+  .label { font-size: .6rem; }
+  .label .in { width: calc(50vw - 18px); padding: .4rem .55rem; }
+  .side--top p { display: none; }
+  .side--top { top: 5.6rem !important; bottom: auto !important; }
+  .label b { font-size: .64rem; margin: 0; }
   .label .sub { display: none; }
   .hright .pill { display: none; }
   .callbar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
@@ -249,8 +272,7 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
   .footer .wrap { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
 }
 @media (max-width: 520px) {
-  .srv { grid-template-columns: minmax(0, 1fr); }
-  .srv li:nth-child(n) { padding-left: 0; border-left: 0; }
+  .jobs { grid-template-columns: minmax(0, 1fr); }
   .langs button { padding: .3rem .25rem; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -276,7 +298,7 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
 <svg class="leaders" id="leaders" aria-hidden="true"></svg>
 
 <header class="header">
-  <a href="#top" class="logo" aria-label="Bici 23 Taller"><b>BICI 23</b><span>TALLER</span></a>
+  <a href="#top" class="logo" aria-label="Bici 23 Taller, inicio"><img class="logo-l" src="img/logo.png" alt="Bici 23 Taller" width="320" height="232"><img class="logo-d" src="img/logo-dark.png" alt="" width="320" height="232"></a>
   <nav class="nav" aria-label="Principal">
     <a href="#servicios" data-i18n="nav.services">Servicios</a>
     <a href="#taller" data-i18n="nav.shop">El taller</a>
@@ -301,7 +323,7 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
   <h1 aria-label="Bici 23 Taller">BICI <span>23</span><small class="sub" data-i18n="hero.tag">Taller de bicicletas · Patraix, València</small></h1>
 </div>
 <div class="st coords l" data-in="-1" data-out="0.07"><span data-scramble>Patraix · València</span><br>39.4631° N · 0.3954° W</div>
-<div class="st coords r" data-in="-1" data-out="0.07"><span data-i18n="hero.hours">L–V 9:30–19:00<br>S 12:00–19:00</span></div>
+<div class="st coords r" data-in="-1" data-out="0.07"><span data-i18n="hero.hours">L–S 10:00–19:00<br>D 10:00–15:00</span></div>
 <div class="st hero-meta" data-in="-1" data-out="0.06">
   <div>
     <p data-i18n="hero.p">Reparamos y ponemos a punto todo tipo de bicis: carretera, montaña, gravel, ciudad y eléctricas. Llámanos y te damos presupuesto y plazo antes de empezar.</p>
@@ -311,26 +333,25 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
     </div>
     <a href="#servicios" class="skip"><span data-i18n="hero.skip">Saltar intro</span> <i></i></a>
   </div>
-  <div class="rating"><b>4,9</b><span class="stars" aria-hidden="true">★★★★★</span><small data-i18n="hero.rating">109 reseñas en Google</small></div>
+  <a class="rating" href="#resenas"><b>4,9</b><span class="stars" aria-hidden="true">★★★★★</span><small data-i18n="hero.rating">109 reseñas en Google</small></a>
 </div>
 
 <!-- 1 · Despiece -->
-<div class="st st--behind giant" data-in="0.17" data-out="0.42">TALLER</div>
-<div class="st side l" data-in="0.2" data-out="0.4">
+<div class="st side l side--top" data-in="0.2" data-out="0.4">
   <p class="eyebrow" data-scramble data-i18n="ex.eyebrow">Despiece</p>
   <h2 class="h2" data-i18n="ex.h">Cada pieza,<br><em>revisada.</em></h2>
   <p data-i18n="ex.p">Desmontamos, limpiamos, ajustamos y volvemos a montar. Con el mismo cuidado en una urbana que en una de carbono.</p>
 </div>
-<div class="label" data-anchor="cockpit" data-dx="40" data-dy="-50"><div class="in"><b data-i18n="l.cockpit">Cambios</b><span class="sub" data-i18n="l.cockpit2">Ajuste fino de marchas</span></div></div>
-<div class="label" data-anchor="fork" data-dx="70" data-dy="20"><div class="in"><b data-i18n="l.fork">Suspensión</b><span class="sub" data-i18n="l.fork2">Horquillas y amortiguadores</span></div></div>
-<div class="label" data-anchor="brake" data-dx="60" data-dy="70"><div class="in"><b data-i18n="l.brake">Frenos</b><span class="sub" data-i18n="l.brake2">Purgado de hidráulicos</span></div></div>
-<div class="label" data-anchor="frame" data-dx="30" data-dy="-70"><div class="in"><b data-i18n="l.frame">Cuadro</b><span class="sub" data-i18n="l.frame2">Carbono, aluminio, acero</span></div></div>
-<div class="label left" data-anchor="wheel" data-dx="-50" data-dy="-60"><div class="in"><b data-i18n="l.wheel">Ruedas</b><span class="sub" data-i18n="l.wheel2">Centrado y alineación</span></div></div>
-<div class="label" data-anchor="drive" data-dx="70" data-dy="40"><div class="in"><b data-i18n="l.drive">Transmisión</b><span class="sub">Shimano Di2 · SRAM AXS</span></div></div>
-<div class="label left" data-anchor="chain" data-dx="-40" data-dy="70"><div class="in"><b data-i18n="l.chain">Cadena</b><span class="sub" data-i18n="l.chain2">Limpieza y encerado</span></div></div>
+<div class="label" data-anchor="cockpit" data-side="r"><div class="in"><b data-i18n="l.cockpit">Cambios</b><span class="sub" data-i18n="l.cockpit2">Ajuste fino de marchas</span></div></div>
+<div class="label" data-anchor="fork" data-side="r"><div class="in"><b data-i18n="l.fork">Suspensión</b><span class="sub" data-i18n="l.fork2">Horquillas y amortiguadores</span></div></div>
+<div class="label" data-anchor="brake" data-side="r"><div class="in"><b data-i18n="l.brake">Frenos</b><span class="sub" data-i18n="l.brake2">Purgado de hidráulicos</span></div></div>
+<div class="label" data-anchor="frame" data-side="r"><div class="in"><b data-i18n="l.frame">Cuadro</b><span class="sub" data-i18n="l.frame2">Carbono, aluminio, acero</span></div></div>
+<div class="label left" data-anchor="wheel" data-side="l"><div class="in"><b data-i18n="l.wheel">Ruedas</b><span class="sub" data-i18n="l.wheel2">Centrado y alineación</span></div></div>
+<div class="label left" data-anchor="drive" data-side="l"><div class="in"><b data-i18n="l.drive">Transmisión</b><span class="sub">Shimano Di2 · SRAM AXS</span></div></div>
+<div class="label left" data-anchor="chain" data-side="l"><div class="in"><b data-i18n="l.chain">Cadena</b><span class="sub" data-i18n="l.chain2">Limpieza y encerado</span></div></div>
 
 <!-- 2 · Macro en oscuro -->
-<div class="st st--behind giant" data-in="0.5" data-out="0.63" style="-webkit-text-stroke-color: rgba(242,102,27,.35)">16:00 → 18:00</div>
+<div class="st st--behind giant" data-in="0.5" data-out="0.63" style="-webkit-text-stroke-color: rgba(234,89,20,.35)">16:00 → 18:00</div>
 <div class="st side r" data-in="0.51" data-out="0.62">
   <p class="eyebrow" data-scramble data-i18n="mac.eyebrow">Rápido</p>
   <h2 class="h2" data-i18n="mac.h">La dejas a las 16:00.<br><em>A las 18:00, lista.</em></h2>
@@ -346,7 +367,7 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
     <p class="types__p" data-i18n="ty.p">Y transmisiones electrónicas Shimano Di2 y SRAM AXS.</p>
   </div>
   <ul class="types__list" id="typeList">
-    <li data-i18n="ty.road">Carretera</li><li data-i18n="ty.mtb">Montaña</li><li data-i18n="ty.gravel">Gravel</li><li data-i18n="ty.city">Ciudad</li><li data-i18n="ty.ebike">Eléctrica</li>
+    <li><button type="button" data-type="0" data-i18n="ty.road">Carretera</button></li><li><button type="button" data-type="1" data-i18n="ty.mtb">Montaña</button></li><li><button type="button" data-type="2" data-i18n="ty.gravel">Gravel</button></li><li><button type="button" data-type="3" data-i18n="ty.city">Ciudad</button></li><li><button type="button" data-type="4" data-i18n="ty.ebike">Eléctrica</button></li>
   </ul>
 </div>
 
@@ -358,22 +379,21 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
     <section class="section" id="servicios">
       <div class="wrap">
         <div class="head">
-          <div><p class="eyebrow reveal" data-i18n="srv.eyebrow">Servicios</p><h2 class="h2 reveal" data-i18n="srv.h">Lo que hacemos<br><em>en el taller.</em></h2></div>
+          <div><p class="eyebrow reveal" data-i18n="srv.eyebrow">Servicios · Puestas a punto</p><h2 class="h2 reveal" data-i18n="srv.h">Tres niveles de<br><em>puesta a punto.</em></h2></div>
           <div class="head__side reveal">
             <p data-i18n="srv.note">No publicamos tarifas porque cada bici es distinta. Llama o escribe y te damos presupuesto sin compromiso.</p>
             <div class="cta"><a class="btn btn--fill" href="tel:+34698999849" data-i18n="cta.quote">Pedir presupuesto</a></div>
           </div>
         </div>
-        <ul class="srv">
-          <li class="reveal"><span class="code">S-01</span><h3 data-i18n="s1t">Revisión completa</h3><p data-i18n="s1d">Limpieza, ajuste de cambios y frenos, holguras, engrase y apriete de todo. Ideal antes de la temporada o de una carrera.</p></li>
-          <li class="reveal"><span class="code">S-02</span><h3 data-i18n="s2t">Frenos hidráulicos</h3><p data-i18n="s2d">Purgado, pastillas, discos y ajuste de pinzas. Que frene como el primer día.</p></li>
-          <li class="reveal"><span class="code">S-03</span><h3 data-i18n="s3t">Cambios y transmisión</h3><p data-i18n="s3d">Ajuste fino, cadena, casete y platos. También electrónicos: Shimano Di2 y SRAM AXS.</p></li>
-          <li class="reveal"><span class="code">S-04</span><h3 data-i18n="s4t">Ruedas</h3><p data-i18n="s4d">Centrado, alineación y reparación de todo tipo de ruedas. Pinchazos y cambio de cubiertas.</p></li>
-          <li class="reveal"><span class="code">S-05</span><h3 data-i18n="s5t">Suspensiones</h3><p data-i18n="s5d">Mantenimiento de horquillas y amortiguadores para que vuelvan a trabajar suaves.</p></li>
-          <li class="reveal"><span class="code">S-06</span><h3 data-i18n="s6t">Bicis eléctricas</h3><p data-i18n="s6d">Diagnóstico y reparación de la asistencia, el cableado y los conectores.</p></li>
-          <li class="reveal"><span class="code">S-07</span><h3 data-i18n="s7t">Montaje de bici nueva</h3><p data-i18n="s7d">Te la entregamos ajustada y lista para rodar.</p><span class="price" data-i18n="s7p">Desde 30 €</span></li>
-          <li class="reveal"><span class="code">S-08</span><h3 data-i18n="s8t">Cadena y limpieza</h3><p data-i18n="s8d">Lubricado, encerado y limpieza a fondo de la transmisión.</p></li>
-        </ul>
+        <div class="tiers">
+          <figure class="tiers__img reveal"><img src="img/dani-orbea.jpg" alt="Dani haciendo una puesta a punto a una bici de carretera Orbea" loading="lazy"></figure>
+          <article class="tier reveal"><span class="code">01</span><h3 data-i18n="t.b">Básica</h3><ul><li data-i18n="t.i1">Ajuste de frenos</li><li data-i18n="t.i2">Ajuste de cambios</li><li data-i18n="t.i3">Ajuste de dirección</li><li data-i18n="t.i4">Apriete de tornillería</li><li data-i18n="t.i5">Engrase de cadena</li><li data-i18n="t.i6">Inflado de ruedas</li><li data-i18n="t.i7">Revisión del desgaste de cadena y pastillas</li></ul></article>
+          <article class="tier reveal"><span class="code">02</span><h3 data-i18n="t.a">Avanzada</h3><p class="plus" data-i18n="t.plusB">Todo lo de la básica, y además:</p><ul><li data-i18n="t.i8">Limpieza de transmisión</li><li data-i18n="t.i9">Alineado de ruedas</li><li data-i18n="t.i10">Ajuste de bujes</li></ul></article>
+          <article class="tier tier--full reveal"><span class="code">03</span><h3 data-i18n="t.c">Completa</h3><p class="plus" data-i18n="t.plusA">Todo lo de la avanzada, y además mantenimiento de:</p><ul><li data-i18n="t.i11">Rodamientos de dirección</li><li data-i18n="t.i12">Rodamientos de ruedas</li><li data-i18n="t.i13">Rodamientos del pedalier</li></ul></article>
+        </div>
+        <p class="tiers__note reveal" data-i18n="t.note">El precio depende del estado y del tipo de bici. Llámanos y te lo decimos al momento.</p>
+        <h3 class="jobs__h reveal" data-i18n="jobs.h">Otros trabajos</h3>
+        <ul class="jobs reveal"><li data-i18n="j1">Ajuste de cambios y frenos</li><li data-i18n="j2">Purgado de frenos hidráulicos</li><li data-i18n="j3">Centrado de ruedas</li><li data-i18n="j4">Cámara y cubierta, también en eléctricas</li><li data-i18n="j5">Cables de freno y de cambio</li><li data-i18n="j6">Montaje tubeless</li><li data-i18n="j7">Montaje de bicicletas</li><li data-i18n="j8">Montaje de piezas y accesorios</li></ul>
       </div>
     </section>
 
@@ -381,12 +401,12 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
     <section class="section about" id="taller">
       <div class="wrap">
         <div class="dani">
-          <div class="dani__img reveal"><img src="img/02-dani-centrando-rueda.jpg" alt="Dani centrando una rueda de carbono en el soporte" loading="lazy"><span class="tag" data-i18n="dani.tag">Centrando una rueda</span></div>
+          <div class="dani__img reveal"><img src="img/dani-rueda.jpg" alt="Dani centrando una rueda de carbono en el soporte" loading="lazy"><span class="tag" data-i18n="dani.tag">Centrando una rueda</span></div>
           <div>
             <p class="eyebrow reveal" data-i18n="dani.eyebrow">El mecánico</p>
             <h2 class="h2 reveal" style="margin-top:.9rem" data-i18n="dani.h">Detrás del taller,<br><em>Dani.</em></h2>
             <p class="reveal" data-i18n="dani.p">Dani es el mecánico y dueño de Bici 23. Cada bici pasa por sus manos, y contesta en persona a cada reseña. Te atiende en español, inglés, ruso y ucraniano.</p>
-            <ul class="facts reveal"><li data-i18n="dani.f1">Local nuevo desde mayo 2026</li><li data-i18n="dani.f2">Accesible en silla de ruedas</li><li>ES · EN · RU · UK</li></ul>
+            <ul class="facts reveal" aria-label="Datos del taller"><li data-i18n="dani.f1">Local nuevo desde mayo 2026</li><li data-i18n="dani.f2">Accesible en silla de ruedas</li><li>ES · EN · RU · UK</li></ul>
           </div>
         </div>
         <div class="rv" id="resenas">
@@ -407,6 +427,7 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
       <div class="wrap">
         <div class="contact">
           <div class="contact__main">
+            <img class="contact__logo reveal" src="img/logo-dark.png" alt="Bici 23 Taller" width="320" height="232" loading="lazy">
             <p class="eyebrow reveal" data-i18n="fi.eyebrow">Presupuesto sin compromiso</p>
             <h2 class="h2 reveal" style="margin-top:1rem" data-i18n="fi.h">¿Qué le pasa<br><em>a tu bici?</em></h2>
             <p class="reveal" data-i18n="fi.p">Llama o escribe por WhatsApp y te decimos precio y plazo.</p>
@@ -427,9 +448,8 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
               <p class="eyebrow" data-i18n="vi.eyebrow">Dónde estamos</p>
               <p class="addr">C/ Pintor Pasqual Capuz, 7<br>46018 València · Patraix</p>
               <dl class="hours">
-                <div><dt data-i18n="vi.mf">Lunes a viernes</dt><dd>9:30 – 19:00</dd></div>
-                <div><dt data-i18n="vi.sat">Sábado</dt><dd>12:00 – 19:00</dd></div>
-                <div class="closed"><dt data-i18n="vi.sun">Domingo</dt><dd data-i18n="vi.closed">Cerrado</dd></div>
+                <div><dt data-i18n="vi.ms">Lunes a sábado</dt><dd>10:00 – 19:00</dd></div>
+                <div><dt data-i18n="vi.sun">Domingo</dt><dd>10:00 – 15:00</dd></div>
               </dl>
               <div class="cta">
                 <a class="btn btn--fill" href="https://maps.app.goo.gl/KVtfmCFgm86qAQRm6" target="_blank" rel="noopener" data-i18n="vi.dir">Cómo llegar</a>
@@ -462,8 +482,9 @@ document.documentElement.classList.add('js');
 window.I18N = {
 es: {},
 en: {
+ "srv.eyebrow":"Services · Tune-ups", "srv.h":"Three levels of<br><em>tune-up.</em>", "t.b":"Basic", "t.a":"Advanced", "t.c":"Full", "t.plusB":"Everything in Basic, plus:", "t.plusA":"Everything in Advanced, plus servicing of:", "t.i1":"Brake adjustment", "t.i2":"Gear adjustment", "t.i3":"Headset adjustment", "t.i4":"Bolt check and tightening", "t.i5":"Chain lube", "t.i6":"Tyre inflation", "t.i7":"Chain and brake pad wear check", "t.i8":"Drivetrain clean", "t.i9":"Wheel truing", "t.i10":"Hub adjustment", "t.i11":"Headset bearings", "t.i12":"Wheel bearings", "t.i13":"Bottom bracket bearings", "t.note":"The price depends on the bike's type and condition. Call us and we'll tell you straight away.", "jobs.h":"Other jobs", "j1":"Gear and brake adjustment", "j2":"Hydraulic brake bleeding", "j3":"Wheel truing", "j4":"Tube and tyre, e-bikes too", "j5":"Brake and gear cables", "j6":"Tubeless setup", "j7":"Bike assembly", "j8":"Fitting parts and accessories", "vi.ms":"Monday to Saturday",
  "nav.services":"Services","nav.shop":"The workshop","nav.reviews":"Reviews","nav.visit":"Find us","nav.contact":"Contact","cta.quote":"Get a quote","cta.call":"Call",
- "hero.tag":"Bike repair workshop · Patraix, Valencia","hero.hours":"Mon–Fri 9:30–19:00<br>Sat 12:00–19:00",
+ "hero.tag":"Bike repair workshop · Patraix, Valencia","hero.hours":"Mon–Sat 10:00–19:00<br>Sun 10:00–15:00",
  "hero.p":"We repair and tune every kind of bike: road, mountain, gravel, city and e-bikes. Call us and we'll give you a quote and a time frame before we start.",
  "hero.skip":"Skip intro","hero.rating":"109 reviews on Google",
  "ex.eyebrow":"Exploded view","ex.h":"Every part,<br><em>checked.</em>","ex.p":"We strip, clean, adjust and rebuild. With the same care for a city bike as for a carbon one.",
@@ -471,14 +492,6 @@ en: {
  "mac.eyebrow":"Fast","mac.h":"Drop it at 4 pm.<br><em>Ready by 6.</em>","mac.p":"Many repairs are done the same day. If it needs more, we tell you the price and timing before we touch anything.","mac.src":"As a customer tells it on Google",
  "ty.eyebrow":"Every kind of bike","ty.p":"Including Shimano Di2 and SRAM AXS electronic groupsets.","ty.road":"Road","ty.mtb":"Mountain","ty.gravel":"Gravel","ty.city":"City","ty.ebike":"E-bike",
  "srv.eyebrow":"Services","srv.h":"What we do<br><em>in the workshop.</em>","srv.note":"We don't publish a price list because every bike is different. Call or message us for a free quote.",
- "s1t":"Full service","s1d":"Cleaning, gear and brake adjustment, play, greasing and torque on every bolt. Ideal before the season or a race.",
- "s2t":"Hydraulic brakes","s2d":"Bleeding, pads, rotors and caliper alignment. Brakes that bite like day one.",
- "s3t":"Gears and drivetrain","s3d":"Fine tuning, chain, cassette and chainrings. Electronic too: Shimano Di2 and SRAM AXS.",
- "s4t":"Wheels","s4d":"Truing, alignment and repair of every kind of wheel. Punctures and tyre changes.",
- "s5t":"Suspension","s5d":"Fork and shock servicing so they run smooth again.",
- "s6t":"E-bikes","s6d":"Diagnosis and repair of motor assist, wiring and connectors.",
- "s7t":"New bike assembly","s7d":"Delivered adjusted and ready to ride.","s7p":"From €30",
- "s8t":"Chain and cleaning","s8d":"Lubing, waxing and a deep drivetrain clean.",
  "how.eyebrow":"How it works","how.h":"Three steps<br><em>and you ride.</em>",
  "h1t":"Call or message","h1d":"Tell us what's wrong and we'll give you a price and a time frame.",
  "h2t":"Bring it in","h2d":"Pintor Pasqual Capuz 7, in Patraix. For a service, book ahead.",
@@ -488,12 +501,13 @@ en: {
  "dani.f1":"New premises since May 2026","dani.f2":"Wheelchair accessible",
  "rv.eyebrow":"Reviews","rv.h":"What people say<br><em>on Google.</em>","rv.count":"109 reviews on Google","rv.wl":"Most mentioned","rv.w":"price · mechanic · efficient · trust",
  "rv.ig":"Customer · Instagram","rv.g":"Google reviews","rv.case":"Real case","rv.cased":"A VanMoof S2 with a broken assist cable. Dani soldered it, refitted it and the bike did 20 km flawlessly.",
- "vi.eyebrow":"Find us","vi.h":"Come and see us<br><em>in Patraix.</em>","vi.mf":"Monday to Friday","vi.sat":"Saturday","vi.sun":"Sunday","vi.closed":"Closed","vi.dir":"Get directions","vi.note":"Looking for us on Avenida Aragón? We moved in May 2026.",
+ "vi.eyebrow":"Find us","vi.h":"Come and see us<br><em>in Patraix.</em>","vi.sun":"Sunday","vi.dir":"Get directions","vi.note":"Looking for us on Avenida Aragón? We moved in May 2026.",
  "fi.eyebrow":"Free quote","fi.h":"What's wrong<br><em>with your bike?</em>","fi.p":"Call or WhatsApp us for a price and a time frame."
 },
 ru: {
+ "srv.eyebrow":"Услуги · Обслуживание", "srv.h":"Три уровня<br><em>обслуживания.</em>", "t.b":"Базовое", "t.a":"Расширенное", "t.c":"Полное", "t.plusB":"Всё из базового, плюс:", "t.plusA":"Всё из расширенного, плюс обслуживание:", "t.i1":"Настройка тормозов", "t.i2":"Настройка переключателей", "t.i3":"Настройка рулевой колонки", "t.i4":"Протяжка болтов", "t.i5":"Смазка цепи", "t.i6":"Подкачка колёс", "t.i7":"Проверка износа цепи и колодок", "t.i8":"Чистка трансмиссии", "t.i9":"Центровка колёс", "t.i10":"Настройка втулок", "t.i11":"Подшипники рулевой", "t.i12":"Подшипники колёс", "t.i13":"Подшипники каретки", "t.note":"Цена зависит от типа и состояния велосипеда. Позвоните — сразу скажем.", "jobs.h":"Другие работы", "j1":"Настройка переключателей и тормозов", "j2":"Прокачка гидравлических тормозов", "j3":"Центровка колёс", "j4":"Камера и покрышка, и на электро", "j5":"Тросики тормоза и переключения", "j6":"Перевод на бескамерку", "j7":"Сборка велосипеда", "j8":"Установка запчастей и аксессуаров", "vi.ms":"Понедельник – суббота",
  "nav.services":"Услуги","nav.shop":"Мастерская","nav.reviews":"Отзывы","nav.visit":"Как нас найти","nav.contact":"Контакты","cta.quote":"Узнать цену","cta.call":"Позвонить",
- "hero.tag":"Ремонт велосипедов · Патраикс, Валенсия","hero.hours":"Пн–Пт 9:30–19:00<br>Сб 12:00–19:00",
+ "hero.tag":"Ремонт велосипедов · Патраикс, Валенсия","hero.hours":"Пн–Сб 10:00–19:00<br>Вс 10:00–15:00",
  "hero.p":"Ремонтируем и обслуживаем любые велосипеды: шоссейные, горные, гравийные, городские и электровелосипеды. Позвоните — назовём цену и сроки до начала работы.",
  "hero.skip":"Пропустить","hero.rating":"109 отзывов в Google",
  "ex.eyebrow":"Разбор","ex.h":"Каждая деталь —<br><em>под контролем.</em>","ex.p":"Разбираем, чистим, настраиваем и собираем обратно. С одинаковой заботой — городской велосипед или карбоновый.",
@@ -501,14 +515,6 @@ ru: {
  "mac.eyebrow":"Быстро","mac.h":"Оставили в 16:00 —<br><em>в 18:00 готово.</em>","mac.p":"Многие ремонты делаем в тот же день. Если нужно больше времени — заранее скажем цену и срок.","mac.src":"Так пишет клиент в Google",
  "ty.eyebrow":"Любые велосипеды","ty.p":"Включая электронные группы Shimano Di2 и SRAM AXS.","ty.road":"Шоссе","ty.mtb":"Горный","ty.gravel":"Гревел","ty.city":"Городской","ty.ebike":"Электро",
  "srv.eyebrow":"Услуги","srv.h":"Что мы делаем<br><em>в мастерской.</em>","srv.note":"Мы не публикуем прайс: каждый велосипед индивидуален. Позвоните или напишите — оценим бесплатно.",
- "s1t":"Полное ТО","s1d":"Мойка, настройка переключателей и тормозов, люфты, смазка и протяжка всех болтов. Идеально перед сезоном или гонкой.",
- "s2t":"Гидравлические тормоза","s2d":"Прокачка, колодки, роторы и выставление калиперов. Тормоза как в первый день.",
- "s3t":"Переключение и трансмиссия","s3d":"Точная настройка, цепь, кассета и звёзды. И электроника: Shimano Di2 и SRAM AXS.",
- "s4t":"Колёса","s4d":"Центровка, правка и ремонт любых колёс. Проколы и замена покрышек.",
- "s5t":"Амортизация","s5d":"Обслуживание вилок и амортизаторов, чтобы снова работали мягко.",
- "s6t":"Электровелосипеды","s6d":"Диагностика и ремонт ассиста, проводки и разъёмов.",
- "s7t":"Сборка нового велосипеда","s7d":"Отдаём настроенным и готовым к езде.","s7p":"От 30 €",
- "s8t":"Цепь и чистка","s8d":"Смазка, вощение и глубокая чистка трансмиссии.",
  "how.eyebrow":"Как это работает","how.h":"Три шага —<br><em>и в путь.</em>",
  "h1t":"Позвоните или напишите","h1d":"Расскажите, что случилось, — назовём цену и срок.",
  "h2t":"Привезите в мастерскую","h2d":"Pintor Pasqual Capuz, 7, район Патраикс. На ТО — по записи.",
@@ -518,12 +524,13 @@ ru: {
  "dani.f1":"Новое помещение с мая 2026","dani.f2":"Доступно для колясок",
  "rv.eyebrow":"Отзывы","rv.h":"Что пишут<br><em>в Google.</em>","rv.count":"109 отзывов в Google","rv.wl":"Чаще всего пишут","rv.w":"цена · механик · быстро · доверие",
  "rv.ig":"Клиент · Instagram","rv.g":"Отзывы в Google","rv.case":"Реальный случай","rv.cased":"VanMoof S2 с оборванным кабелем ассиста. Данила всё спаял, собрал — и 20 км без единой проблемы.",
- "vi.eyebrow":"Как нас найти","vi.h":"Ждём вас<br><em>в Патраиксе.</em>","vi.mf":"Понедельник – пятница","vi.sat":"Суббота","vi.sun":"Воскресенье","vi.closed":"Выходной","vi.dir":"Проложить маршрут","vi.note":"Искали нас на Avenida Aragón? В мае 2026 мы переехали.",
+ "vi.eyebrow":"Как нас найти","vi.h":"Ждём вас<br><em>в Патраиксе.</em>","vi.sun":"Воскресенье","vi.dir":"Проложить маршрут","vi.note":"Искали нас на Avenida Aragón? В мае 2026 мы переехали.",
  "fi.eyebrow":"Бесплатная оценка","fi.h":"Что случилось<br><em>с велосипедом?</em>","fi.p":"Позвоните или напишите в WhatsApp — назовём цену и срок."
 },
 uk: {
+ "srv.eyebrow":"Послуги · Обслуговування", "srv.h":"Три рівні<br><em>обслуговування.</em>", "t.b":"Базове", "t.a":"Розширене", "t.c":"Повне", "t.plusB":"Усе з базового, плюс:", "t.plusA":"Усе з розширеного, плюс обслуговування:", "t.i1":"Налаштування гальм", "t.i2":"Налаштування перемикачів", "t.i3":"Налаштування рульової колонки", "t.i4":"Протяжка болтів", "t.i5":"Змащення ланцюга", "t.i6":"Підкачування коліс", "t.i7":"Перевірка зносу ланцюга й колодок", "t.i8":"Чищення трансмісії", "t.i9":"Центрування коліс", "t.i10":"Налаштування втулок", "t.i11":"Підшипники рульової", "t.i12":"Підшипники коліс", "t.i13":"Підшипники каретки", "t.note":"Ціна залежить від типу та стану велосипеда. Зателефонуйте — одразу скажемо.", "jobs.h":"Інші роботи", "j1":"Налаштування перемикачів і гальм", "j2":"Прокачування гідравлічних гальм", "j3":"Центрування коліс", "j4":"Камера й покришка, і на електро", "j5":"Тросики гальма й перемикання", "j6":"Переведення на безкамерку", "j7":"Збирання велосипеда", "j8":"Встановлення запчастин і аксесуарів", "vi.ms":"Понеділок – субота",
  "nav.services":"Послуги","nav.shop":"Майстерня","nav.reviews":"Відгуки","nav.visit":"Як нас знайти","nav.contact":"Контакти","cta.quote":"Дізнатися ціну","cta.call":"Зателефонувати",
- "hero.tag":"Ремонт велосипедів · Патраїкс, Валенсія","hero.hours":"Пн–Пт 9:30–19:00<br>Сб 12:00–19:00",
+ "hero.tag":"Ремонт велосипедів · Патраїкс, Валенсія","hero.hours":"Пн–Сб 10:00–19:00<br>Нд 10:00–15:00",
  "hero.p":"Ремонтуємо й обслуговуємо будь-які велосипеди: шосейні, гірські, гравійні, міські та електровелосипеди. Зателефонуйте — назвемо ціну й терміни до початку роботи.",
  "hero.skip":"Пропустити","hero.rating":"109 відгуків у Google",
  "ex.eyebrow":"Розбір","ex.h":"Кожна деталь —<br><em>під контролем.</em>","ex.p":"Розбираємо, чистимо, налаштовуємо й збираємо назад. З однаковою турботою — міський велосипед чи карбоновий.",
@@ -531,14 +538,6 @@ uk: {
  "mac.eyebrow":"Швидко","mac.h":"Залишили о 16:00 —<br><em>о 18:00 готово.</em>","mac.p":"Багато ремонтів робимо в той самий день. Якщо потрібно більше часу — заздалегідь скажемо ціну й термін.","mac.src":"Так пише клієнт у Google",
  "ty.eyebrow":"Будь-які велосипеди","ty.p":"Включно з електронними групами Shimano Di2 та SRAM AXS.","ty.road":"Шосе","ty.mtb":"Гірський","ty.gravel":"Гравел","ty.city":"Міський","ty.ebike":"Електро",
  "srv.eyebrow":"Послуги","srv.h":"Що ми робимо<br><em>у майстерні.</em>","srv.note":"Ми не публікуємо прайс: кожен велосипед індивідуальний. Зателефонуйте або напишіть — оцінимо безкоштовно.",
- "s1t":"Повне ТО","s1d":"Миття, налаштування перемикачів і гальм, люфти, змащення та протяжка всіх болтів. Ідеально перед сезоном або гонкою.",
- "s2t":"Гідравлічні гальма","s2d":"Прокачування, колодки, ротори та виставлення каліперів. Гальма як у перший день.",
- "s3t":"Перемикання і трансмісія","s3d":"Точне налаштування, ланцюг, касета й зірки. І електроніка: Shimano Di2 та SRAM AXS.",
- "s4t":"Колеса","s4d":"Центрування, рихтування та ремонт будь-яких коліс. Проколи й заміна покришок.",
- "s5t":"Амортизація","s5d":"Обслуговування вилок і амортизаторів, щоб знову працювали м'яко.",
- "s6t":"Електровелосипеди","s6d":"Діагностика та ремонт асисту, проводки й роз'ємів.",
- "s7t":"Збирання нового велосипеда","s7d":"Віддаємо налаштованим і готовим до їзди.","s7p":"Від 30 €",
- "s8t":"Ланцюг і чищення","s8d":"Змащення, вощення та глибоке чищення трансмісії.",
  "how.eyebrow":"Як це працює","how.h":"Три кроки —<br><em>і в дорогу.</em>",
  "h1t":"Зателефонуйте або напишіть","h1d":"Розкажіть, що сталося, — назвемо ціну й термін.",
  "h2t":"Привезіть у майстерню","h2d":"Pintor Pasqual Capuz, 7, район Патраїкс. На ТО — за записом.",
@@ -548,7 +547,7 @@ uk: {
  "dani.f1":"Нове приміщення з травня 2026","dani.f2":"Доступно для візків",
  "rv.eyebrow":"Відгуки","rv.h":"Що пишуть<br><em>у Google.</em>","rv.count":"109 відгуків у Google","rv.wl":"Найчастіше пишуть","rv.w":"ціна · механік · швидко · довіра",
  "rv.ig":"Клієнт · Instagram","rv.g":"Відгуки в Google","rv.case":"Реальний випадок","rv.cased":"VanMoof S2 з обірваним кабелем асисту. Данило все спаяв, зібрав — і 20 км без жодної проблеми.",
- "vi.eyebrow":"Як нас знайти","vi.h":"Чекаємо на вас<br><em>у Патраїксі.</em>","vi.mf":"Понеділок – п'ятниця","vi.sat":"Субота","vi.sun":"Неділя","vi.closed":"Вихідний","vi.dir":"Прокласти маршрут","vi.note":"Шукали нас на Avenida Aragón? У травні 2026 ми переїхали.",
+ "vi.eyebrow":"Як нас знайти","vi.h":"Чекаємо на вас<br><em>у Патраїксі.</em>","vi.sun":"Неділя","vi.dir":"Прокласти маршрут","vi.note":"Шукали нас на Avenida Aragón? У травні 2026 ми переїхали.",
  "fi.eyebrow":"Безкоштовна оцінка","fi.h":"Що сталося<br><em>з велосипедом?</em>","fi.p":"Зателефонуйте або напишіть у WhatsApp — назвемо ціну й термін."
 }};
 (function () {
@@ -614,8 +613,8 @@ const rimL = new THREE.DirectionalLight(0xff7a2e, 1.4); rimL.position.set(-3, 1.
 const clipSolid = new THREE.Plane(new THREE.Vector3(-1, 0, 0), -2);
 const clipWire = new THREE.Plane(new THREE.Vector3(1, 0, 0), 2);
 const M = {
-  frame: new THREE.MeshPhysicalMaterial({ color: 0x1f2124, roughness: .35, metalness: .25, clearcoat: 1, clearcoatRoughness: .12 }),
-  accent: new THREE.MeshStandardMaterial({ color: 0xF2661B, roughness: .4, metalness: .1 }),
+  frame: new THREE.MeshPhysicalMaterial({ color: 0x293744, roughness: .35, metalness: .25, clearcoat: 1, clearcoatRoughness: .12 }),
+  accent: new THREE.MeshStandardMaterial({ color: 0xEA5914, roughness: .4, metalness: .1 }),
   tire: new THREE.MeshStandardMaterial({ color: 0x141414, roughness: .92 }),
   wall: new THREE.MeshStandardMaterial({ color: 0xC9B48E, roughness: .85 }),
   rim: new THREE.MeshStandardMaterial({ color: 0x1b1c1e, roughness: .3, metalness: .7 }),
@@ -625,8 +624,8 @@ const M = {
 };
 const spokeMat = new THREE.LineBasicMaterial({ color: 0x8b8f95 });
 [...Object.values(M), spokeMat].forEach(m => m.clippingPlanes = [clipSolid]);
-const wireMesh = new THREE.MeshBasicMaterial({ color: 0x131314, wireframe: true, transparent: true, opacity: .28, clippingPlanes: [clipWire] });
-const wireLine = new THREE.LineBasicMaterial({ color: 0x131314, transparent: true, opacity: .35, clippingPlanes: [clipWire] });
+const wireMesh = new THREE.MeshBasicMaterial({ color: 0x1F2B37, wireframe: true, transparent: true, opacity: .28, clippingPlanes: [clipWire] });
+const wireLine = new THREE.LineBasicMaterial({ color: 0x1F2B37, transparent: true, opacity: .35, clippingPlanes: [clipWire] });
 
 const V = (x, y, z = 0) => new THREE.Vector3(x, y, z);
 const P = { R: V(-.5, .34), F: V(.5, .34), BB: V(-.08, .27), ST: V(-.2, .8), HT1: V(.385, .78), HT2: V(.42, .64) };
@@ -755,8 +754,8 @@ shadow.rotation.x = -Math.PI / 2; shadow.position.y = .001; holder.add(shadow);
 const K = [
   { p: 0,    cam: [0, .55, 2.45], look: [0, .5, 0],  rot: 0,    ex: 0 },
   { p: .12,  cam: [0, .6, 2.3],   look: [0, .5, 0],  rot: -.3,  ex: 0 },
-  { p: .22,  cam: [.35, 1.05, 3.2], look: [-.22, .46, 0], rot: -.6, ex: 1 },
-  { p: .38,  cam: [.45, 1.1, 3.3], look: [-.22, .46, 0], rot: -.85, ex: 1 },
+  { p: .22,  cam: [.3, 1.05, 3.3], look: [0, .44, 0], rot: -.55, ex: 1 },
+  { p: .38,  cam: [.4, 1.1, 3.4], look: [0, .44, 0], rot: -.8, ex: 1 },
   { p: .47,  cam: [.1, .55, 1.6], look: [-.2, .38, 0], rot: .2, ex: 0 },
   { p: .56,  cam: [-.02, .46, 1.05], look: [-.3, .34, 0], rot: .45, ex: 0 },
   { p: .64,  cam: [0, .55, 2.45], look: [0, .48, 0], rot: 0,    ex: 0 },
@@ -765,13 +764,13 @@ const K = [
 ];
 const EX = { wheelF: [.3, .0, .12], wheelR: [-.3, .0, .12], front: [.1, .17, 0], seat: [-.04, .16, 0], drive: [0, -.1, .28], cassette: [-.16, -.02, .32] };
 const BASE = { wheelF: P.F, wheelR: P.R };
-const BG = [[0, '#E8E5DF'], [.46, '#E8E5DF'], [.52, '#0F1011'], [.885, '#0F1011'], [.95, '#E8E5DF']];
+const BG = [[0, '#E8E5DF'], [.46, '#E8E5DF'], [.52, '#141C24'], [.885, '#141C24'], [.95, '#E8E5DF']];
 const TYPES = [
-  { k: 'road',   c: 0x1f2124, t: .013, bar: 'drop', bat: false },
-  { k: 'mtb',    c: 0xF2661B, t: .03,  bar: 'flat', bat: false },
+  { k: 'road',   c: 0x293744, t: .013, bar: 'drop', bat: false },
+  { k: 'mtb',    c: 0xEA5914, t: .03,  bar: 'flat', bat: false },
   { k: 'gravel', c: 0x6f6a52, t: .021, bar: 'drop', bat: false },
   { k: 'city',   c: 0xDDD6C8, t: .019, bar: 'flat', bat: false },
-  { k: 'ebike',  c: 0x34414f, t: .023, bar: 'flat', bat: true },
+  { k: 'ebike',  c: 0x4a5a6b, t: .023, bar: 'flat', bat: true },
 ];
 
 const sm = t => t * t * (3 - 2 * t);
@@ -805,7 +804,9 @@ const leaders = document.getElementById('leaders');
 leaders.innerHTML = labels.map(() => '<line/><circle r="3"/>').join('');
 const lines = [...leaders.querySelectorAll('line')], dots = [...leaders.querySelectorAll('circle')];
 const rail = document.getElementById('rail'), railBox = document.getElementById('railBox'), marks = document.getElementById('marks');
-const typeName = document.getElementById('typeName'), typeLis = [...document.querySelectorAll('#typeList li')];
+const typeName = document.getElementById('typeName'), typeLis = [...document.querySelectorAll('#typeList button')];
+let manual = null, manualAt = 0;
+typeLis.forEach(btn => btn.addEventListener('click', () => { manual = +btn.dataset.type; manualAt = target; setType(manual); }));
 const GLYPH = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·/';
 function scramble(el) {
   const final = el.textContent, n = final.length; let f = 0;
@@ -868,20 +869,22 @@ function frame(now) {
   pose(bike, s, spin, now); pose(wire, s, spin, now);
 
   // tipos de bici
-  if (p > .62) setType(Math.min(4, Math.max(0, Math.floor((p - .645) / .24 * 5)))); else setType(0);
+  if (manual !== null && Math.abs(target - manualAt) > .03) manual = null;
+  if (manual !== null) setType(manual);
+  else if (p > .62) setType(Math.min(4, Math.max(0, Math.floor((p - .645) / .24 * 5)))); else setType(0);
   colT.setHex(TYPES[curType].c); col.lerp(colT, Math.min(1, dt * 5)); M.frame.color.copy(col);
 
   // fondo y tema
   const bg = bgAt(p);
   document.documentElement.style.setProperty('--story-bg', `rgb(${bg.rgb.join(',')})`);
   document.documentElement.classList.toggle('dark', bg.dark);
-  wireMesh.color.set(bg.dark ? 0xEDEAE4 : 0x131314);
+  wireMesh.color.set(bg.dark ? 0xEDEAE4 : 0x1F2B37);
 
   // textos
   for (const o of sts) {
     const v = vis(p, o.a, o.b);
     o.el.style.opacity = v;
-    o.el.style.transform = (o.el.classList.contains('giant') ? 'translateY(-50%) ' : (o.el.classList.contains('side') && innerWidth > 900 ? 'translateY(-50%) ' : '')) + `translateY(${(1 - v) * 18}px)`;
+    o.el.style.transform = (o.el.classList.contains('giant') ? 'translateY(-50%) ' : (o.el.classList.contains('side') && !o.el.classList.contains('side--top') && innerWidth > 900 ? 'translateY(-50%) ' : '')) + `translateY(${(1 - v) * 18}px)`;
     const on = v > .5;
     if (on && !o.on) o.el.querySelectorAll('[data-scramble]').forEach(scramble);
     o.on = on; o.el.classList.toggle('on', on);
@@ -892,15 +895,33 @@ function frame(now) {
   // etiquetas del despiece
   const lv = s.ex > .75 ? (s.ex - .75) / .25 : 0;
   const W2 = innerWidth / 2, H2 = innerHeight / 2;
-  labels.forEach((el, i) => {
-    const a = bike.anchors[el.dataset.anchor];
-    a.getWorldPosition(tmp); tmp.project(camera);
-    const x = (tmp.x * W2) + W2, y = (-tmp.y * H2) + H2;
-    const k = innerWidth < 600 ? .55 : 1;
-    const lx = x + (+el.dataset.dx) * k, ly = y + (+el.dataset.dy) * k;
-    el.style.opacity = lv; el.style.transform = `translate(${lx + (el.classList.contains('left') ? -6 : 6)}px, ${ly}px)`;
-    lines[i].setAttribute('x1', x); lines[i].setAttribute('y1', y); lines[i].setAttribute('x2', lx); lines[i].setAttribute('y2', ly);
-    lines[i].style.opacity = dots[i].style.opacity = lv;
+  const mob = innerWidth < 700, gap = mob ? 44 : 70;
+  const colX = { l: Math.min(W2 - 300, innerWidth * .23), r: Math.max(W2 + 260, innerWidth * .74) };
+  const items = labels.map((el, i) => {
+    const a = bike.anchors[el.dataset.anchor]; a.getWorldPosition(tmp); tmp.project(camera);
+    return { el, i, side: el.dataset.side, x: tmp.x * W2 + W2, y: -tmp.y * H2 + H2 };
+  });
+  const top = innerHeight * .2, bottom = innerHeight - 60;
+  for (const side of ['l', 'r']) {
+    const col = items.filter(o => o.side === side).sort((m, n) => m.y - n.y);
+    col.forEach(o => o.ly = Math.min(bottom, Math.max(top, o.y)));
+    for (let k = 1; k < col.length; k++) if (col[k].ly < col[k - 1].ly + gap) col[k].ly = col[k - 1].ly + gap;
+    const over = col.length ? col[col.length - 1].ly - bottom : 0;
+    if (over > 0) col.forEach(o => o.ly -= over);
+    col.forEach(o => o.lx = side === 'l' ? colX.l : colX.r);
+    if (side === 'l') col.forEach(o => o.ly = Math.max(o.ly, innerHeight * .42));
+  }
+  if (mob) { // en móvil: leyenda en dos columnas bajo la bici
+    const order = ['cockpit', 'frame', 'fork', 'brake', 'wheel', 'drive', 'chain'];
+    items.forEach(o => { const k = order.indexOf(o.el.dataset.anchor); o.lx = k % 2 ? W2 + 4 : 12; o.ly = innerHeight - 250 + Math.floor(k / 2) * 38; o.side = 'r'; });
+  }
+  for (const o of items) { if (o.ly < top) o.ly = top; }
+  items.forEach(({ el, i, x, y, lx, ly, side }) => {
+    el.classList.toggle('left', side === 'l');
+    el.style.opacity = lv; el.style.transform = `translate(${lx}px, ${ly}px)`;
+    const ex = side === 'l' ? lx : lx;
+    lines[i].setAttribute('x1', x); lines[i].setAttribute('y1', y); lines[i].setAttribute('x2', ex); lines[i].setAttribute('y2', ly);
+    lines[i].style.opacity = mob ? 0 : lv; dots[i].style.opacity = lv;
     dots[i].setAttribute('cx', x); dots[i].setAttribute('cy', y);
   });
 
